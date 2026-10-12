@@ -1,0 +1,130 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    padding: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0B0812;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.tarjeta{
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 560px;
+    padding: 40px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: #17151F;
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.40);
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #311376;
+    color: #F0ABFC;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nombre{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.juego{ color: #FFF; }
+.data{ color: #F0ABFC; }
+
+.sesion{
+    color: #FFF;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.descripcion{
+    color: #A9A3B8;
+    font-size: 18px;
+    line-height: 150%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.campo{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label{
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+input{
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: rgba(23, 21, 31, 0.80);
+    color: #FFF;
+    font-family: inherit;
+    font-size: 18px;
+}
+
+input::placeholder{
+    color: #A9A3B8;
+}
+
+input:focus{
+    outline: none;
+    border-color: #7C5CC4;
+}
+
+button{
+    height: 56px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #7C5CC4, #5B3FA0);
+    color: #FFF;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.registro{
+    text-align: center;
+    color: #A9A3B8;
+    font-size: 16px;
+}
+
+.registro a{
+    color: #F0ABFC;
+    font-weight: 700;
+    text-decoration: none;
+}
