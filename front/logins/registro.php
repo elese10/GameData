@@ -23,7 +23,7 @@
         </div>
         <h1 class="sesion">Crea tu cuenta</h1>
         <p class="descripcion">Ingresa tus datos para unirte a GameData.</p>
-        <form action="procesar_registro.php" method="POST">
+        <form action="../../back/procesar_registro.php" method="POST">
             <div class="campo">
                 <label for="usuario">Nombre de usuario</label>
                 <input type="text" id="usuario" name="usuario" placeholder="Escribe tu nombre de usuario" required>

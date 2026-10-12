@@ -23,7 +23,7 @@
         </div>
         <h1 class="sesion">Iniciar sesión</h1>
         <p class="descripcion">Ingresa tu correo electrónico y contraseña para continuar.</p>
-        <form action="procesar_login.php" method="POST">
+        <form action="../../back/procesar_login.php" method="POST">
             <div class="campo">
                 <label for="correo">Correo electrónico</label>
                 <input type="email" id="correo" name="correo" placeholder="nombre@ejemplo.com" required>
