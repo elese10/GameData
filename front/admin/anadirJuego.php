@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    $tipo_user = $_SESSION["tipo_user"];
+    if ($tipo_user !== 1)
+    {
+        header("Location: logins/login.php");
+        exit();
+    }
+
+    $mensaje = $_GET["mensaje"];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,7 +18,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Game Data | Añadir juego</title>
-        <link rel="stylesheet" href="styles/gestion_juegos.css">
+        <link rel="stylesheet" href="styles/style.css">
     </head>
 
 
@@ -17,7 +29,7 @@
                 <h1 id="titulo-formulario">Añadir juego</h1>
                 <br><br>
 
-                <form class="formulario-juego" id="formulario-juego">
+                <form class="formulario-juego" id="formulario-juego" action="../../back/procesar_juego.php" method="POST">
                     <div class="campos-juego">
                         
                         <div class="vista-previa" id="vista-previa-portada">
@@ -33,6 +45,9 @@
                             placeholder="Nombre del juego"
                             required
                         >
+                        <?php if ($mensaje === "repetido"): ?>
+                            <p>Este juego ya existe</p>
+                        <?php endif; ?>
 
                         <input
                             class="entrada-formulario"
@@ -89,7 +104,10 @@
                                 <option>Terror</option>
                             </select>
                         </div>
-
+                        <?php if ($mensaje === "categoria_invalida"): ?>
+                            <p>Categorias Invalidas</p>
+                        <?php endif; ?>
+                        
                         <div class="acciones-formulario">
                             <a class="boton-cancelar" href="#">Cancelar</a>
                             <button class="boton-agregar" type="submit">Añadir</button>
