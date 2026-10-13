@@ -26,10 +26,18 @@
         </a>
         <nav>
             <a href="index.php" class="activo"><i class="inicio"></i>Inicio</a>
-            <a href="solicitar-juego.php"><i class="mas"></i>Solicitar Juego</a>
+            <?php if($rol == 0):?>
+                <a href="solicitar-juego.php"><i class="mas"></i>Solicitar Juego</a>
+            <?php endif?>
             <a href="resenas.php"><i class="estrella"></i>Reseñas</a>
             <a href="amigos.php"><i class="usuario"></i>Amigos</a>
         </nav>
+        <?php if($rol == 1) :?>
+            <nav>            
+                <a href="solicitar-juego.php"><i class="libro"></i>Ver solicitudes</a>
+                <a href="agregar-juego.php"><i class="mas"></i>Agregar Juego</a>
+            </nav>
+        <?php endif?>
         <a href="perfil.php" class="perfil">
             <div class="avatar"><i class="usuario"></i></div>
             <div class="datos">
