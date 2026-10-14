@@ -30,7 +30,7 @@
 
     if ($categoria -> num_rows < 3)
     {
-        header("Location: #?mensaje=categoria_invalida"); // Falta poner ubicacion
+        header("Location: http://localhost/GameData/front/admin/anadirJuego.php"); // Falta poner ubicacion
         exit;
     }
 

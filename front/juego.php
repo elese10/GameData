@@ -1,3 +1,31 @@
+<?php
+    session_start();
+    require "../back/conexiones/conexion.php";
+     if (!isset($_SESSION["id_usuario"])) {
+        header("Location: http://localhost/GameData/front/index.php");
+        exit;
+    }
+    $rol = $_SESSION["tipo_user"];
+    $id_juego = $_GET["id"] ?? "";
+
+    $sql_juego = "SELECT j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
+    FROM Juego AS j
+    JOIN Juego_categoria AS jc
+    ON j.id_juego = jc.id_juego
+    JOIN Categoria AS c
+    ON jc.id_categoria = c.id_categoria WHERE j.id_juego = ?
+    GROUP BY j.id_juego, j.nombre, j.descripcion, j.img_url;";
+    $resultado = $conexion->prepare($sql_juego);
+    $resultado->bind_param("i", $id_juego);
+    $resultado->execute();
+    $datos = $resultado->get_result();
+    if ($datos->num_rows > 0) {
+        $juego = $datos->fetch_assoc();
+    }else{
+        header("location: http://localhost/GameData/front/index.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,15 +38,21 @@
 </head>
 <body>
     <div class="fondo">
-        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/header.jpg" alt="">
+        <img src="<?= $juego["img_url"] ?>" alt="">
     </div>
     <main>
-        <h1>Hollow Knight: Silksong</h1>
+        <h1><?= $juego["nombre"] ?></h1>
+        <?php if($rol == 1):?>
+            <div class="botones-admin">
+                <button>modificar Juego</button>
+                <button>Eliminar Juego</button>
+            </div>
+        <?php endif?>
         <div class="columnas">
             <div class="izquierda">
                 <section>
                     <h2>Descripción</h2>
-                    <p>Descubre un nuevo reino, explora territorios desconocidos y enfrenta peligros en esta aventura llena de misterios.</p>
+                    <p><?= $juego["descripcion"] ?></p>
                 </section>
                 <section>
                     <h2>Valoración</h2>
@@ -27,9 +61,10 @@
                 <section>
                     <h2>Categorías</h2>
                     <div class="etiquetas">
-                        <span>RPG</span>
-                        <span>Acción</span>
-                        <span>Aventura</span>
+                        <?php  $cats = explode(",", $juego["Categorias"])?>
+                        <?php foreach($cats as $cat){?>
+                                <span><?= $cat ?></span>       
+                        <?php } ?> 
                     </div>
                 </section>
             </div>

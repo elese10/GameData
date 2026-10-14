@@ -1,8 +1,24 @@
 <?php
+    require "../back/conexiones/conexion.php";
     session_start();
+    
+    if (!isset($_SESSION["id_usuario"])) {
+        header("Location: http://localhost/GameData/front/index.php");
+        exit;
+    }
+
     $id_usuario = $_SESSION["id_usuario"];
     $nombre_usuario = $_SESSION["username"];
     $rol = $_SESSION["tipo_user"];
+
+    $sql_juegos = "SELECT j.id_juego, j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
+    FROM Juego AS j
+    JOIN Juego_categoria AS jc
+    ON j.id_juego = jc.id_juego
+    JOIN Categoria AS c
+    ON jc.id_categoria = c.id_categoria
+    GROUP BY j.id_juego, j.nombre, j.descripcion, j.img_url;";
+    $resultado = $conexion->query($sql_juegos);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +51,7 @@
         <?php if($rol == 1) :?>
             <nav>            
                 <a href="solicitar-juego.php"><i class="libro"></i>Ver solicitudes</a>
-                <a href="agregar-juego.php"><i class="mas"></i>Agregar Juego</a>
+                <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
         <a href="perfil.php" class="perfil">
@@ -59,7 +75,6 @@
                 <a href="lista.php?tipo=posesion"><i class="libro"></i>En posesión</a>
             </nav>
         </div>
-
         <section class="destacados">
             <article class="destacado">
                 <div class="portada">
@@ -74,7 +89,7 @@
                             <span>RPG</span>
                             <span>Acción</span>
                         </div>
-                        <a href="juego.php?id=1" class="ver">Ver</a>
+                        <a href="juego.php" class="ver">Ver</a>
                     </div>
                 </div>
             </article>
@@ -120,38 +135,25 @@
         <section class="agregados">
             <h2>Juegos agregados</h2>
             <div class="grilla">
-                <article>
-                    <a href="juego.php?id=8"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/367520/header.jpg" alt="Hollow Knight"></a>
-                    <div class="info">
-                        <h3>Hollow Knight</h3>
-                        <p>Metroidvania</p>
-                        <div class="etiquetas"><span>Acción</span></div>
-                    </div>
-                </article>
-                <article>
-                    <a href="juego.php?id=9"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1145360/header.jpg" alt="Hades"></a>
-                    <div class="info">
-                        <h3>Hades</h3>
-                        <p>Roguelike</p>
-                        <div class="etiquetas"><span>RPG</span></div>
-                    </div>
-                </article>
-                <article>
-                    <a href="juego.php?id=10"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814380/header.jpg" alt="Sekiro"></a>
-                    <div class="info">
-                        <h3>Sekiro: Shadows Die Twice</h3>
-                        <p>Acción</p>
-                        <div class="etiquetas"><span>Acción</span></div>
-                    </div>
-                </article>
-                <article>
-                    <a href="juego.php?id=11"><img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/504230/header.jpg" alt="Celeste"></a>
-                    <div class="info">
-                        <h3>Celeste</h3>
-                        <p>Plataformas</p>
-                        <div class="etiquetas"><span>Aventura</span></div>
-                    </div>
-                </article>
+                <?php
+                while($juego = $resultado->fetch_assoc()){
+                ?>
+                    <article>
+                        <a href="juego.php?id=<?= $juego["id_juego"] ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
+                        <div class="info">
+                            <h3><?= $juego["nombre"] ?></h3>
+                            <p><?= $juego["descripcion"] ?></p>
+                            <div class="etiquetas">
+                                <?php  $cats = explode(",", $juego["Categorias"])?>
+                                <?php foreach($cats as $cat){?>
+                                    <span><?= $cat ?></span>       
+                                <?php } ?> 
+                            </div>
+                        </div>
+                    </article>
+                <?php
+                };
+                ?>
             </div>
         </section>
     </main>
