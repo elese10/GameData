@@ -1,26 +1,23 @@
 <?php
     require "../back/conexiones/conexion.php";
     session_start();
-    
     if (!isset($_SESSION["id_usuario"])) {
-        header("Location: http://localhost/GameData/front/index.php");
+        header("Location: http://localhost/GameData/front/logins/login.php");
         exit;
     }
-
     $id_usuario = $_SESSION["id_usuario"];
     $nombre_usuario = $_SESSION["username"];
     $rol = $_SESSION["tipo_user"];
 
     $sql_juegos = "SELECT j.id_juego, j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
     FROM Juego AS j
-    JOIN Juego_categoria AS jc
-    ON j.id_juego = jc.id_juego
-    JOIN Categoria AS c
-    ON jc.id_categoria = c.id_categoria
+    JOIN Juego_categoria AS jc ON j.id_juego = jc.id_juego
+    JOIN Categoria AS c ON jc.id_categoria = c.id_categoria
     GROUP BY j.id_juego, j.nombre, j.descripcion, j.img_url;";
     $resultado = $conexion->query($sql_juegos);
+    $juegos = $resultado->fetch_all(MYSQLI_ASSOC);
+    $destacados = array_rand($juegos, 5);
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,7 +46,8 @@
             <a href="amigos.php"><i class="usuario"></i>Amigos</a>
         </nav>
         <?php if($rol == 1) :?>
-            <nav>            
+            <nav class="nav-admin"> 
+                <h2>Herramientas de Admin</h2>           
                 <a href="solicitar-juego.php"><i class="libro"></i>Ver solicitudes</a>
                 <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
@@ -76,24 +74,34 @@
             </nav>
         </div>
         <section class="destacados">
-            <article class="destacado">
-                <div class="portada">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030300/header.jpg" alt="Hollow Knight: Silksong">
-                    <span>Destacado</span>
-                </div>
-                <div class="info">
-                    <h1>Hollow Knight: Silksong</h1>
-                    <p>Descubre un nuevo reino, explora territorios desconocidos y enfrenta peligros en esta aventura llena de misterios.</p>
-                    <div class="pie">
-                        <div class="etiquetas">
-                            <span>RPG</span>
-                            <span>Acción</span>
-                        </div>
-                        <a href="juego.php" class="ver">Ver</a>
+            <section class="carrusel">
+                <?php
+                foreach($destacados as $indice){
+                    $destacado = $juegos[$indice]
+                ?>
+                    <article class="destacado">
+                    <div class="portada">
+                        <img src="<?= $destacado["img_url"] ?>" alt="">
+                        <span>Destacado</span>
                     </div>
-                </div>
-            </article>
-
+                    <div class="info">
+                        <h1><?= $destacado["nombre"] ?></h1>
+                        <p><?= $destacado["descripcion"] ?></p>
+                        <div class="pie">
+                            <div class="etiquetas">
+                                <?php  $cats = explode(",", $destacado["Categorias"])?>
+                                <?php foreach($cats as $cat){?>
+                                    <span><?= $cat ?></span>       
+                                <?php } ?> 
+                            </div>
+                            <a href="juego.php?id=<?= $destacado["id_juego"] ?>" class="ver">Ver</a>
+                        </div>
+                    </div>
+                    </article>
+                <?php
+                };
+                ?>
+            </section>
             <section class="favoritos">
                 <div class="titulo">
                     <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
@@ -136,7 +144,7 @@
             <h2>Juegos agregados</h2>
             <div class="grilla">
                 <?php
-                while($juego = $resultado->fetch_assoc()){
+                foreach($juegos as $juego){
                 ?>
                     <article>
                         <a href="juego.php?id=<?= $juego["id_juego"] ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>

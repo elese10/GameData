@@ -9,7 +9,6 @@
 
     $mensaje = $_GET["mensaje"];
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -25,7 +24,7 @@
     <body>
         <main class="pagina-agregar-juego">
             <section class="panel-formulario" aria-labelledby="titulo-formulario">
-                <a class="enlace-volver" href="#">← Volver al inicio</a>
+                <a class="enlace-volver" href="../index.php">← Volver al inicio</a>
                 <h1 id="titulo-formulario">Añadir juego</h1>
                 <br><br>
 

@@ -18,12 +18,12 @@
     $resultado = $conexion->prepare($sql_juego);
     $resultado->bind_param("i", $id_juego);
     $resultado->execute();
+    //aun falta mejorar los distintos casos y errores//
     $datos = $resultado->get_result();
-    if ($datos->num_rows > 0) {
-        $juego = $datos->fetch_assoc();
-    }else{
+    if ($datos->num_rows <= 0) {
         header("location: http://localhost/GameData/front/index.php");
     }
+     $juego = $datos->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +42,7 @@
     </div>
     <main>
         <h1><?= $juego["nombre"] ?></h1>
+        <!-- //falta mejorar el estilo de los botones de admin// -->
         <?php if($rol == 1):?>
             <div class="botones-admin">
                 <button>modificar Juego</button>

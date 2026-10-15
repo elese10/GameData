@@ -85,9 +85,18 @@ aside {
 aside nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    flex: 1;
+    gap: 8px;  
     margin-top: 28px;
+    flex: 1;
+}
+
+.nav-admin{
+    flex: 2;
+}
+
+.nav-admin h2{
+    font-size: 15px;
+    color: #F0ABFC;
 }
 
 aside nav a {
@@ -223,6 +232,38 @@ main {
     border: 2px solid #242033;
     background: #17151F;
     overflow: hidden;
+    flex: 0 0 100%;  
+    scroll-snap-align: start;
+}
+
+.carrusel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 16px;
+}
+
+.carrusel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carrusel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.carrusel::-webkit-scrollbar-thumb {
+    background: #311376;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.carrusel::-webkit-scrollbar-thumb:hover {
+    background: #4a1fb0;
+}
+
+.carrusel::-webkit-scrollbar-button {
+    display: none;
 }
 
 .portada {
