@@ -108,15 +108,13 @@
                         <?php endif; ?>
                         
                         <div class="acciones-formulario">
-                            <a class="boton-cancelar" href="#">Cancelar</a>
+                            <a class="boton-cancelar" href="../index.php">Cancelar</a>
                             <button class="boton-agregar" type="submit">Añadir</button>
                         </div>
                     </div>
                 </form>
             </section>
         </main>
-
-
         <script>
             const campoUrlImagen = document.getElementById('url-imagen');
             const vistaPreviaPortada = document.getElementById('vista-previa-portada');

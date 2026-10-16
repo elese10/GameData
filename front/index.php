@@ -53,7 +53,7 @@
         <?php if($rol == 1) :?>
             <nav class="nav-admin"> 
                 <h2>Herramientas de Admin</h2>           
-                <a href="solicitar-juego.php"><i class="libro"></i>Ver solicitudes</a>
+                <a href="admin/verPeticiones.php"><i class="libro"></i>Ver solicitudes</a>
                 <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
