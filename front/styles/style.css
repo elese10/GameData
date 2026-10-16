@@ -454,3 +454,131 @@ main {
 .grilla .etiquetas {
     margin-top: 6px;
 }
+
+.modal_overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    justify-content: center;
+    align-items: center; 
+    z-index: 9999;      
+}
+
+.modal_contenedor {
+    display: flex;
+    width: 720px;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: rgba(23, 21, 31, 0.80);
+    backdrop-filter: blur(9px);
+}
+
+.boton_cerrar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal_header h2{
+    color: #FFF;
+    font-family: "Space Grotesk";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.modal_header p{
+    flex: 1 0 0;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.nombre_peticion{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.modal_contenedor form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    align-self: stretch;
+}
+
+.modal_contenedor form h2{
+    color: #8B5CF6;
+    font-family: Rajdhani;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.nombre_peticion input{
+    display: flex;
+    height: 56px;
+    padding: 0 16px;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    line-height: normal;
+}
+
+.descripcion_peticion{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.descripcion_peticion textarea{
+    display: flex;
+    height: 160px;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    line-height: 150%;
+}
+
+.modal_botones{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+}

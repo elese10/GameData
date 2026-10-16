@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
+    
     <aside>
         <a href="index.php" class="header">
             <div class="logo">GD</div>
@@ -37,14 +38,18 @@
                 <span class="data">Data</span>
             </div>
         </a>
+
+        <!-- //si el usuario es un usuario comun tiene este nav// -->
         <nav>
             <a href="index.php" class="activo"><i class="inicio"></i>Inicio</a>
             <?php if($rol == 0):?>
-                <a href="solicitar-juego.php"><i class="mas"></i>Solicitar Juego</a>
+                <button onclick="abrirModal()" id="boton_modal">Solicitar Juego</button>
             <?php endif?>
             <a href="resenas.php"><i class="estrella"></i>Reseñas</a>
             <a href="amigos.php"><i class="usuario"></i>Amigos</a>
         </nav>
+
+        <!-- //si el usuario es un administrador tiene este nav// -->
         <?php if($rol == 1) :?>
             <nav class="nav-admin"> 
                 <h2>Herramientas de Admin</h2>           
@@ -61,7 +66,35 @@
         </a>
     </aside>
 
+    <!-- Modal de peticion de juegos -->
+    <div id="modal" class="modal_overlay">
+        <div class="modal_contenedor">
+            <div class="modal_header">
+                <h2>Solicitar juego</h2>
+                <p>
+                    Completa los datos para que los administradores revisen y agreguen el juego a la plataforma.
+                </p>
+            </div>
+            <form action="../back/procesar_solicitudJuego.php" method="POST">
+                <div class="nombre_peticion">
+                    <h2>Nombre Juego</h2>
+                    <input type="text" placeholder="Ej: Hollow Knight: Silksong" name="nombre">
+                </div>
+                <div class="descripcion_peticion">
+                    <h2>Descripcion</h2>
+                    <textarea name="descripcion" id="" placeholder="Describe brevemente el juego, género o por qué te gustaría que lo agreguemos"></textarea>
+                </div>
+                <div class="modal_botones">
+                    <button type="button" class="boton_cancelar" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="boton_agregar">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
     <main>
+        <!-- //barra de busqueda y botones de listas// -->
         <div class="barra">
             <form class="buscador" action="#">
                 <i class="buscar"></i>
@@ -74,6 +107,7 @@
             </nav>
         </div>
         <section class="destacados">
+            <!-- //Carrusel de juegos Destacados// -->
             <section class="carrusel">
                 <?php
                 foreach($destacados as $indice){
@@ -102,6 +136,8 @@
                 };
                 ?>
             </section>
+            
+            <!-- //Seccion de nuestros favoritos// -->
             <section class="favoritos">
                 <div class="titulo">
                     <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
@@ -139,7 +175,8 @@
                 </a>
             </section>
         </section>
-
+        
+        <!-- //Seccion de todos los juegos agregados en nuestro catalogo// -->
         <section class="agregados">
             <h2>Juegos agregados</h2>
             <div class="grilla">
@@ -165,5 +202,14 @@
             </div>
         </section>
     </main>
+    <script>
+        function abrirModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
