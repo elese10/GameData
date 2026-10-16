@@ -1,5 +1,6 @@
 <?php
-    $servidor = "localhost";
+    $servidor = "127.0.0.1";
+    $puerto = 3306;
     $usuario = "root";
     $password = "";
     $base_datos = "gamedata";
@@ -8,7 +9,8 @@
         $servidor,
         $usuario,
         $password,
-        $base_datos
+        $base_datos,
+        $puerto
     );
 
     if ($conexion->connect_error) {
