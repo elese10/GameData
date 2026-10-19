@@ -43,7 +43,7 @@
         <nav>
             <a href="index.php" class="activo"><i class="inicio"></i>Inicio</a>
             <?php if($rol == 0):?>
-                <button onclick="abrirModal()" id="boton_modal">Solicitar Juego</button>
+                <a class="boton_modal" onclick="abrirModal()"><i class="mas"></i>Solicitar Juego</a>
             <?php endif?>
             <a href="resenas.php"><i class="estrella"></i>Reseñas</a>
             <a href="amigos.php"><i class="usuario"></i>Amigos</a>
@@ -78,15 +78,15 @@
             <form action="../back/procesar_solicitudJuego.php" method="POST">
                 <div class="nombre_peticion">
                     <h2>Nombre Juego</h2>
-                    <input type="text" placeholder="Ej: Hollow Knight: Silksong" name="nombre">
+                    <input type="text" placeholder="Ej: Hollow Knight: Silksong" name="nombre" required>
                 </div>
                 <div class="descripcion_peticion">
                     <h2>Descripcion</h2>
-                    <textarea name="descripcion" id="" placeholder="Describe brevemente el juego, género o por qué te gustaría que lo agreguemos"></textarea>
+                    <textarea name="descripcion" id="" placeholder="Describe brevemente el juego, género o por qué te gustaría que lo agreguemos" required></textarea>
                 </div>
                 <div class="modal_botones">
-                    <button type="button" class="boton_cancelar" onclick="cerrarModal()">Cancelar</button>
-                    <button type="submit" class="boton_agregar">Solicitar</button>
+                    <button type="button" class="boton boton_cancelar" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="boton boton_agregar">Solicitar</button>
                 </div>
             </form>
         </div>
@@ -128,7 +128,7 @@
                                     <span><?= $cat ?></span>       
                                 <?php } ?> 
                             </div>
-                            <a href="juego.php?id=<?= $destacado["id_juego"] ?>" class="ver">Ver</a>
+                            <a href="juego.php?juego=<?= str_replace(' ', '-', $destacado["nombre"]) ?>" class="ver">Ver</a>
                         </div>
                     </div>
                     </article>
@@ -184,7 +184,8 @@
                 foreach($juegos as $juego){
                 ?>
                     <article>
-                        <a href="juego.php?id=<?= $juego["id_juego"] ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
+                        <!-- str_replace remplaza los simbolos de un string que asignes por otro simbolo que le asignes -->
+                        <a href="juego.php?juego=<?= str_replace(' ', '-', $juego["nombre"]) ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
                         <div class="info">
                             <h3><?= $juego["nombre"] ?></h3>
                             <p><?= $juego["descripcion"] ?></p>

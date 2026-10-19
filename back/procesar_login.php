@@ -3,7 +3,7 @@
     require "conexiones/conexion.php";
     $correo = $_POST["correo"];
     $pass = $_POST["pass"];
-
+    
     $sql = "SELECT * FROM Usuario WHERE correo = ?";
     $resultado = $conexion->prepare($sql);
     $resultado->bind_param("s", $correo);
