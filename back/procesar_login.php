@@ -17,7 +17,7 @@
             $_SESSION["username"] = $user['username'];
             $_SESSION["tipo_user"] = $user['tipo_user'];
             $_SESSION["fecha_creacion"] = $user['fecha_creacion'];
-            header("Location: http://localhost/GameData/front/index.php");
+            header("Location: ../front/index.php");
             exit;
         } else{
             header("Location: http://localhost/GameData/front/logins/login.php?mensaje=contraseña_incorrecta");
