@@ -39,6 +39,8 @@ i {
 .buscar    { --icono: url(../logos/buscar.svg); }
 .tendencia { --icono: url(../logos/tendencia.svg); }
 .libro     { --icono: url(../logos/libro.svg); }
+.volver    { --icono: url(../logos/volver.svg);}
+.borrar    { --icono: url(../logos/papelera.svg);}
 
 aside {
     position: sticky;
@@ -108,6 +110,7 @@ aside nav a {
     color: #A9A3B8;
     font-size: 15px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 aside nav .activo {
@@ -481,17 +484,6 @@ main {
     backdrop-filter: blur(9px);
 }
 
-.boton_cerrar {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-}
-
 .modal_header h2{
     color: #FFF;
     font-family: "Space Grotesk";
@@ -581,4 +573,113 @@ main {
     align-items: flex-start;
     gap: 12px;
     align-self: stretch;
+}
+
+.boton {
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    border: 2px solid #242033;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Modificadores específicos */
+.boton_cancelar {
+    padding: 0 20px;
+    background: #17151F;
+}
+
+.boton_agregar {
+    padding: 0 24px;
+    background: linear-gradient(180deg, #8B5CF6 0%, #7850D5 0.01%, #513690 100%);
+}
+
+
+
+.peticiones{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+ 
+.tarjeta-peticion{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: #17151F;
+}
+ 
+/* Columna de texto (ocupa todo el espacio que sobra) */
+.peticion-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+ 
+.titulo-peticion{
+    margin: 0;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: normal;
+}
+ 
+.descripcion-peticion{
+    margin: 0;
+    color: #D6D0E0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+ 
+/* Columna de botones */
+.botones-peticiones{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+    width: 170px;
+}
+ 
+.boton-peticion{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 14px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+ 
+.icono-boton{
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+ 
+.boton-aprobar{
+    background: #22D3A6;
+    color: #0B0812;
+}
+ 
+.boton-rechazar{
+    background: #8B1A1A;
+    color: #FFF;
 }

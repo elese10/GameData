@@ -6,7 +6,7 @@
         header("Location: #"); //Falta poner ubicacion
         exit();
     }
-    require __DIR__ . "/conexiones/conexion.php";
+    require __DIR__ . "../../../back/conexiones/conexion.php";
     $mensaje = $_GET["mensaje"] ?? "";
 
     $id_juego = $_GET["id_juego"] ?? "";
@@ -44,18 +44,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Game Data | Modificar juego</title>
-        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="../styles/gestion_juegos.css">
     </head>
 
 
     <body>
         <main class="pagina-agregar-juego">
             <section class="panel-formulario" aria-labelledby="titulo-formulario">
-                <a class="enlace-volver" href="#">← Volver al juego</a>
+                <a class="enlace-volver" href="../juego.php?juego=<?= str_replace(' ', '-', $nombreJuego) ?>">← Volver al juego</a>
                 <h1 id="titulo-formulario">Modificar juego</h1>
                 <br><br>
 
-                <form class="formulario-juego" id="formulario-juego" action="../../back/procesar_juego.php" method="POST">
+                <form class="formulario-juego" id="formulario-juego" action="../../back/procesar_modificacion_juego.php" method="POST">
                     <div class="campos-juego">
                         
                         <div class="vista-previa" id="vista-previa-portada">
@@ -74,8 +74,9 @@
                         >
                         <?php if ($mensaje === "repetido"): ?>
                             <p>Este juego ya existe</p>
+                        <?php elseif($mensaje === "juego_modificado"): ?>
+                            <p>Juego Modificado correctamente</p>
                         <?php endif; ?>
-
                         <input
                             class="entrada-formulario"
                             id="url-imagen"

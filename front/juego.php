@@ -5,25 +5,64 @@
         header("Location: http://localhost/GameData/front/index.php");
         exit;
     }
+    $id_usuario = $_SESSION["id_usuario"];
     $rol = $_SESSION["tipo_user"];
-    $id_juego = $_GET["id"] ?? "";
+    $nombre_juego = str_replace('-', ' ', $_GET["juego"]);
 
-    $sql_juego = "SELECT j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
+    $sql_juego = "SELECT j.id_juego, j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
     FROM Juego AS j
     JOIN Juego_categoria AS jc
     ON j.id_juego = jc.id_juego
     JOIN Categoria AS c
-    ON jc.id_categoria = c.id_categoria WHERE j.id_juego = ?
+    ON jc.id_categoria = c.id_categoria WHERE j.nombre = ?
     GROUP BY j.id_juego, j.nombre, j.descripcion, j.img_url;";
     $resultado = $conexion->prepare($sql_juego);
-    $resultado->bind_param("i", $id_juego);
+    $resultado->bind_param("s", $nombre_juego);
     $resultado->execute();
     //aun falta mejorar los distintos casos y errores//
     $datos = $resultado->get_result();
     if ($datos->num_rows <= 0) {
         header("location: http://localhost/GameData/front/index.php");
     }
-     $juego = $datos->fetch_assoc();
+    $juego = $datos->fetch_assoc();
+
+    //Consultas de listas
+    $sql_favorito = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 1";
+    $res_favorito = $conexion->prepare($sql_favorito);
+    $res_favorito->bind_param("ii", $id_usuario, $juego["id_juego"]);
+    $res_favorito->execute();
+    $favorito = $res_favorito->get_result();
+    $res_favorito->close();
+    if($favorito->num_rows > 0){
+        $favorito = 1;
+    }else{
+        $favorito = 0;
+    }
+
+    $sql_deseos = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 2";
+    $res_deseos = $conexion->prepare($sql_deseos);
+    $res_deseos->bind_param("ii", $id_usuario, $juego["id_juego"]);
+    $res_deseos->execute();
+    $deseos = $res_deseos->get_result();
+    $res_deseos->close();
+    if($deseos->num_rows > 0){
+        $deseos= 1;
+    }else{
+        $deseos= 0;
+    }
+
+    $sql_posesion = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 3";
+    $res_posesion = $conexion->prepare($sql_posesion);
+    $res_posesion->bind_param("ii", $id_usuario, $juego["id_juego"]);
+    $res_posesion->execute();
+    $posesion = $res_posesion->get_result();
+    $res_posesion->close();
+
+    if($posesion->num_rows > 0){
+        $posesion = 1;
+    }else{
+        $posesion= 0;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -41,14 +80,33 @@
         <img src="<?= $juego["img_url"] ?>" alt="">
     </div>
     <main>
-        <h1><?= $juego["nombre"] ?></h1>
-        <!-- //falta mejorar el estilo de los botones de admin// -->
-        <?php if($rol == 1):?>
-            <div class="botones-admin">
-                <button>modificar Juego</button>
-                <button>Eliminar Juego</button>
+        <div class="boton_volver">
+            <button class="boton_lista"><a href="index.php"><i class="volver"></i>Volver</a></button>
+        </div>
+        <div style="position: relative;">
+             <h1><?= $juego["nombre"] ?></h1>
+            <?php if($rol == 1):?>
+                <div class="botones-admin">
+                    <button class="boton modificar"><a href="admin/modificarJuego.php?id_juego=<?= $juego["id_juego"] ?>">Editar</a></button>
+                    <button class="boton eliminar" onclick="abrirModal()">Eliminar</button>
+                </div>
+            <?php endif?>
+        </div>
+
+        <!-- Modal de eliminacion -->
+        <div id="modal" class="modal_overlay">
+            <div class="modal_contenedor">
+                <form action="../back/procesar_eliminarJuego.php" method="POST">
+                    <h2>Seguro que quiere eliminar el juego?</h2>
+                    <input type="hidden" name="id" value="<?=$juego["id_juego"]?>">
+                    <div class="modal_botones">
+                        <button type="button" class="boton modificar" onclick="cerrarModal()">Cancelar</button>
+                        <button type="submit" class="boton eliminar">Eliminar</button>
+                    </div>
+                </form>
             </div>
-        <?php endif?>
+        </div>
+
         <div class="columnas">
             <div class="izquierda">
                 <section>
@@ -71,12 +129,55 @@
             </div>
             <div class="derecha">
                 <section>
+                
+
+
                     <h2>Listas</h2>
                     <nav class="listas">
-                        <a href="lista.php?tipo=favoritos" class="activo"><i class="estrella"></i>Favoritos</a>
-                        <a href="lista.php?tipo=deseados"><i class="mas"></i>Deseados</a>
-                        <a href="lista.php?tipo=posesion"><i class="libro"></i>En posesión</a>
+                        <form action="../back/procesar_listas.php" method="POST">
+                            <input type="hidden" value="<?= $juego["id_juego"] ?>" name="juego">
+                            <input type="hidden" value="<?= $juego["nombre"] ?>" name="nombre">
+                            <?php  if($favorito == 0):?>
+                                <input type="hidden" value="agregar" name="accion">
+                                <input type="hidden" value="1" name="lista">
+                                <button type="submit" class="boton_lista"><i class="estrella"></i>Favoritos</button>
+                            <?php else:?>
+                                <input type="hidden" value="eliminar" name="accion">
+                                <input type="hidden" value="1" name="lista">
+                                <button type="submit" class="boton_lista activo"><i class="estrella"></i>Favoritos</button>
+                            <?php endif ?>
+                        </form>
+                        
+                        <form action="../back/procesar_listas.php" method="POST">
+                            <input type="hidden" value="<?= $juego["id_juego"] ?>" name="juego">
+                            <input type="hidden" value="<?= $juego["nombre"] ?>" name="nombre">
+                            <?php  if($deseos == 0):?>
+                                <input type="hidden" value="agregar" name="accion">
+                                <input type="hidden" value="2" name="lista">
+                                <button type="submit" class="boton_lista"><i class="mas"></i>Deseos</button>
+                        
+                            <?php else:?>
+                                <input type="hidden" value="eliminar" name="accion">
+                                <input type="hidden" value="2" name="lista">
+                                <button type="submit" class="boton_lista activo"><i class="mas"></i>Deseos</button>
+                            <?php endif ?>
+                        </form>
+                        
+                        <form action="../back/procesar_listas.php" method="POST">
+                            <input type="hidden" value="<?= $juego["id_juego"] ?>" name="juego">
+                            <input type="hidden" value="<?= $juego["nombre"] ?>" name="nombre">
+                            <?php  if($posesion == 0):?>
+                                <input type="hidden" value="agregar" name="accion">
+                                <input type="hidden" value="3" name="lista">
+                                <button type="submit" class="boton_lista"><i class="libro"></i>En posesion</button>
+                            <?php else :?>
+                                <input type="hidden" value="eliminar" name="accion">
+                                <input type="hidden" value="3" name="lista">
+                                <button type="submit" class="boton_lista activo"><i class="libro"></i>En posesion</button>
+                            <?php endif ?>
+                        </form>
                     </nav>
+
                 </section>
                 <section>
                     <h2>Reseñas y comentarios</h2>
@@ -107,5 +208,14 @@
             </div>
         </div>
     </main>
+    <script>
+        function abrirModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

@@ -19,7 +19,7 @@
 
     if ($juego -> num_rows > 1)
     {
-        header("Location: #?mensaje=repetido"); //Falta poner ubicacion
+        header("Location: ../front/admin/modificarJuego.php?mensaje=repetido"); //Falta poner ubicacion
         exit;
     }
 
@@ -29,9 +29,9 @@
     $categoria = $categorias -> get_result();
     $categorias -> close();
 
-    if ($categoria -> num_rows < 3)
+    if ($categoria -> num_rows > 3)
     {
-        header("Location: #?mensaje=categoria_invalida"); //Falta poner la ubicacion
+        header("Location: ../front/admin/modificarJuego.php?mensaje=categoria_invalida"); //Falta poner la ubicacion
         exit;
     }
 
@@ -55,6 +55,6 @@
     $juego_categoria -> execute();
     $juego_categoria -> close();
     
-    header("Location: #"); //Falta poner ubicacion
+    header("Location: ../front/admin/modificarJuego.php?mensaje=juego_modificado");
     exit;
 ?>

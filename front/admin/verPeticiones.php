@@ -1,95 +1,105 @@
 <?php
+    session_start();
     require_once __DIR__ . "/../../back/conexiones/conexion.php";
     
-
     $traerPeticion = $conexion -> prepare("SELECT id_peticion, peticion_juego, peticion_descripcion, estado FROM Peticion WHERE estado = 'pendiente'");
     $traerPeticion -> execute();
     $peticiones = ($traerPeticion -> get_result()) -> fetch_all(MYSQLI_ASSOC);
     $traerPeticion -> close();
+    $rol = $_SESSION["tipo_user"];
+    $nombre_usuario = $_SESSION["username"];
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Peticiones</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="../../front/styles/gestion_juegos.css">
-    </head>
-
-    <body>
-    <div class="layout">
-        <aside class="lateral">
-            <div class="lateral-superior">
-                <div class="header">
-                    <div class="logo">GD</div>
-                    <div class="nombre">
-                        <span class="juego">Game</span>
-                        <span class="data">Data</span>
-                    </div>
-                </div>
-
-                <nav class="menu">
-                    <a class="enlace" href="inicio.html">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
-                        </svg>
-                        Inicio
-                    </a>
-                    <a class="enlace" href="resenias.html">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-                            <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>
-                        </svg>
-                        Reseñas
-                    </a>
-                    <a class="enlace" href="amigos.html">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/>
-                            <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>
-                        </svg>
-                        Amigos
-                    </a>
-
-                    <hr class="separador">
-
-                    <a class="enlace activo" href="peticiones.html" aria-current="page">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/>
-                            <path d="M8 8h8M8 12h8M8 16h5"/>
-                        </svg>
-                        Peticiones
-                    </a>
-                    <a class="enlace" href="anadirJuego.php">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                            <path d="M12 5v14M5 12h14"/>
-                        </svg>
-                        Añadir juego
-                    </a>
-                </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Data | Inicio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    
+    <aside>
+        <a href="index.php" class="header">
+            <div class="logo">GD</div>
+            <div class="nombre">
+                <span class="juego">Game</span>
+                <span class="data">Data</span>
             </div>
+        </a>
 
-            <a class="cuenta" href="perfil.html">
-                <span class="cuenta-avatar" aria-hidden="true">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
-                </span>
-                <span class="cuenta-datos">
-                    <span class="cuenta-nombre" id="cuenta-nombre">Admin</span>
-                    <span class="cuenta-rol" id="cuenta-rol">Perfil principal</span>
-                </span>
-            </a>
-        </aside>
+        <!-- //si el usuario es un usuario comun tiene este nav// -->
+        <nav>
+            <a href="../index.php"><i class="inicio"></i>Inicio</a>
+            <?php if($rol == 0):?>
+                <a class="boton_modal" onclick="abrirModal()"><i class="mas"></i>Solicitar Juego</a>
+            <?php endif?>
+            <a href="resenas.php"><i class="estrella"></i>Reseñas</a>
+            <a href="amigos.php"><i class="usuario"></i>Amigos</a>
+        </nav>
 
-        <main class="contenido">
-            <label class="buscador">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-                <input type="search" id="buscador" placeholder="Buscar juego, usuario">
-            </label>
+        <!-- //si el usuario es un administrador tiene este nav// -->
+        <?php if($rol == 1) :?>
+            <nav class="nav-admin"> 
+                <h2>Herramientas de Admin</h2>           
+                <a href="admin/verPeticiones.php" class="activo"><i class="libro"></i>Ver solicitudes</a>
+                <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
+            </nav>
+        <?php endif?>
+        <a href="perfil.php" class="perfil">
+            <div class="avatar"><i class="usuario"></i></div>
+            <div class="datos">
+                <strong><?= $nombre_usuario ?></strong>
+                <span>Perfil principal</span>
+            </div>
+        </a>
+    </aside>
 
-            <h1 class="titulo">Peticiones</h1>
+    <!-- Modal de peticion de juegos -->
+    <div id="modal" class="modal_overlay">
+        <div class="modal_contenedor">
+            <div class="modal_header">
+                <h2>Solicitar juego</h2>
+                <p>
+                    Completa los datos para que los administradores revisen y agreguen el juego a la plataforma.
+                </p>
+            </div>
+            <form action="../back/procesar_solicitudJuego.php" method="POST">
+                <div class="nombre_peticion">
+                    <h2>Nombre Juego</h2>
+                    <input type="text" placeholder="Ej: Hollow Knight: Silksong" name="nombre" required>
+                </div>
+                <div class="descripcion_peticion">
+                    <h2>Descripcion</h2>
+                    <textarea name="descripcion" id="" placeholder="Describe brevemente el juego, género o por qué te gustaría que lo agreguemos" required></textarea>
+                </div>
+                <div class="modal_botones">
+                    <button type="button" class="boton boton_cancelar" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="boton boton_agregar">Solicitar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <section class="peticiones" id="peticiones">
+    
+    <main>
+        <!-- //barra de busqueda y botones de listas// -->
+        <div class="barra">
+            <form class="buscador" action="#">
+                <i class="buscar"></i>
+                <input type="search" placeholder="Buscar juegos, usuarios">
+            </form>
+            <nav>
+                <a href="lista.php?tipo=favoritos"><i class="estrella"></i>Favoritos</a>
+                <a href="lista.php?tipo=deseados"><i class="mas"></i>Deseados</a>
+                <a href="lista.php?tipo=posesion"><i class="libro"></i>En posesión</a>
+            </nav>
+        </div>
+        
+        <section class="peticiones" id="peticiones">
 
             <?php foreach ($peticiones as $peticion): ?>
                 <article class="tarjeta-peticion">
@@ -104,36 +114,30 @@
                         <form action="anadirJuego.php" method="POST" >
                             <input type="hidden" value="agregar" name="accion">
                             <input type="hidden" name="id" value="<?= $peticion["id_peticion"] ?>">
-                            <button class="boton-peticion boton-aprobar" type="submit">
-                                <svg class="icono-boton" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M7.5 9.16667L10 11.6667L18.3333 3.33333M17.5 10V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V4.16667C2.5 3.72464 2.67559 3.30072 2.98816 2.98816C3.30072 2.67559 3.72464 2.5 4.16667 2.5H13.3333" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                Aprobar
+                            <button class="boton-peticion boton-aprobar" type="submit"><i class="libro"></i>Aprobar
                             </button>
                         </form>
         
-
-
                         <form action="../../back/procesar_peticion.php" method="POST">
                             <input type="hidden" value="eliminar" name="accion">
                             <input type="hidden" name="id" value="<?= $peticion["id_peticion"] ?>">
                             <button class="boton-peticion boton-rechazar" type="submit">
-                                <svg class="icono-boton" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>
-                                </svg>
+                                <i class="borrar"></i>
                                 Rechazar
                             </button>
                         </form>
                     </div>
                 </article>
             <?php endforeach; ?>
-            
+    </main>
+    <script>
+        function abrirModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
 
-            </section>
-        </main>
-
-    </div>
-    </body>
-
-
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
 </html>
