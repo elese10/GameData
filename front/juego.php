@@ -107,6 +107,37 @@
             </div>
         </div>
 
+        <!-- Modal de comentar -->
+        <div id="modalResena" class="modal_overlay">
+            <div class="modal_contenedor">
+                <div class="modal_header">
+                    <h2>Reseñar: <?= $juego["nombre"] ?></h2>
+                    <p>
+                        Deja tu reseña para que los usuarios puedan leer tu experiencia
+                    </p>
+                </div>
+                <form action="../back/procesar_resena.php" method="POST">
+                    <input type="hidden" name="id_juego" value="<?= $juego["id_juego"] ?>">
+                    <input type="hidden" name="nombre_juego" value="<?= $juego["nombre"] ?>">
+                    <input type="hidden" name="id_usuario" value="<?= $id_usuario ?>">
+                    <div class="area_resena">
+                        <textarea name="review" placeholder="Describe brevemente el juego, género o por qué te gustaría que lo agreguemos" required></textarea>
+                    </div>
+                    <h2>Calificacion</h2>
+                    <div class="calificacion">
+                        <input type="radio" name="calificacion" value="1" id="resena_like" required>
+                        <label for="resena_like"><img src="logos/like.svg" alt=""></label>
+                        <input type="radio" name="calificacion" value="0" id="resena_dislike" required>
+                        <label for="resena_dislike"><img src="logos/dislike.svg" alt=""></label>
+                    </div>
+                    <div class="modal_botones">
+                        <button type="button" class="boton_lista boton_cancelar" onclick="cerrarModal()">Cancelar</button>
+                        <button type="submit" class="boton_lista activo">Solicitar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="columnas">
             <div class="izquierda">
                 <section>
@@ -181,7 +212,7 @@
                 </section>
                 <section>
                     <h2>Reseñas y comentarios</h2>
-                    <a href="comentar.php?id=1" class="comentar"><i class="mas"></i>Comentar</a>
+                    <a class="comentar" onclick="abrirModalResena()"><i class="mas"></i>Comentar</a>
                     <article>
                         <div class="autor">
                             <div class="avatar"><i class="usuario"></i></div>
@@ -215,6 +246,11 @@
 
         function cerrarModal() {
             document.getElementById('modal').style.display = 'none';
+            document.getElementById('modalResena').style.display = 'none';
+        }
+
+         function abrirModalResena() {
+            document.getElementById('modalResena').style.display = 'flex';
         }
     </script>
 </body>

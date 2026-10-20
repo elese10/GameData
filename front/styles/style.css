@@ -101,7 +101,7 @@ aside nav {
     color: #F0ABFC;
 }
 
-aside nav a {
+a {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -113,7 +113,7 @@ aside nav a {
     cursor: pointer;
 }
 
-aside nav .activo {
+.activo {
     background: #311376;
     color: #FFF;
     font-weight: 700;
@@ -414,7 +414,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
+}  
 
 .agregados h2 {
     color: #8B5CF6;
@@ -632,7 +632,7 @@ main {
     color: #FFF;
     font-family: "Space Grotesk", sans-serif;
     font-size: 28px;
-    font-weight: 700;
+    font-weight: 70w0;
     line-height: normal;
 }
  
@@ -682,4 +682,83 @@ main {
 .boton-rechazar{
     background: #8B1A1A;
     color: #FFF;
+}
+
+
+.contenedor_lista{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.cabecera{
+    display: flex;
+    height: 104px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.cabecera h1{
+    color: #8B5CF6;
+    font-family: "Space Grotesk";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 110%;
+}
+
+.cabecera p{
+    color: #D6D0E0;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.juegos_ista{
+    display: flex;
+    height: 44px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.vacio{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.vacio .img{
+    width: 240px;
+    height: 180px;
+    background: url(../logos/gatoGamer.png) #0B0812 50% / cover no-repeat;
+}
+
+.vacio h1{
+    color: #D6D0E0;
+    text-align: center;
+    font-family: "Space Grotesk";
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.vacio p{
+    color: #A9A3B8;
+    text-align: center;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
 }
