@@ -16,7 +16,7 @@
     GROUP BY j.id_juego, j.nombre, j.descripcion, j.img_url;";
     $resultado = $conexion->query($sql_juegos);
     $juegos = $resultado->fetch_all(MYSQLI_ASSOC);
-    $destacados = array_rand($juegos, 5);
+    $destacados = array_rand($juegos, 3);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -101,9 +101,9 @@
                 <input type="search" placeholder="Buscar juegos, usuarios">
             </form>
             <nav>
-                <a href="lista.php?tipo=favoritos"><i class="estrella"></i>Favoritos</a>
-                <a href="lista.php?tipo=deseados"><i class="mas"></i>Deseados</a>
-                <a href="lista.php?tipo=posesion"><i class="libro"></i>En posesión</a>
+                <a href="lista.php?lista=favoritos"><i class="estrella"></i>Favoritos</a>
+                <a href="lista.php?lista=deseados"><i class="mas"></i>Deseados</a>
+                <a href="lista.php?lista=posesion"><i class="libro"></i>En posesión</a>
             </nav>
         </div>
         <section class="destacados">
@@ -188,7 +188,6 @@
                         <a href="juego.php?juego=<?= str_replace(' ', '-', $juego["nombre"]) ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
                         <div class="info">
                             <h3><?= $juego["nombre"] ?></h3>
-                            <p><?= $juego["descripcion"] ?></p>
                             <div class="etiquetas">
                                 <?php  $cats = explode(",", $juego["Categorias"])?>
                                 <?php foreach($cats as $cat){?>

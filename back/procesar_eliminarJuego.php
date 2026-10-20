@@ -8,7 +8,8 @@
     $resultado->execute();
 
     if ($resultado->affected_rows > 0) {
-        echo "Juego borrado con éxito";
+        header("Location: ../front/index.php");
+        exit;
     } else {
         echo "No se encontró el juego o no se pudo borrar";
     }
