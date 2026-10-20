@@ -271,7 +271,7 @@ main {
 
 .portada {
     position: relative;
-    height: 170px;
+    height: 300px;
 }
 
 .portada img {
@@ -436,6 +436,7 @@ main {
 
 .grilla img {
     height: 150px;
+    border-radius: 10px;
 }
 
 .grilla .info {

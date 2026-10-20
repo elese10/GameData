@@ -26,6 +26,22 @@
     }
     $juego = $datos->fetch_assoc();
 
+
+    $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username 
+    FROM Review AS r 
+    JOIN Usuario AS u 
+    ON r.id_usuario = u.id_usuario 
+    JOIN Juego AS j 
+    ON r.id_juego = j.id_juego 
+    WHERE j.nombre = ?";
+
+    $resultado_reseñas = $conexion->prepare($sql_comentarios);
+    $resultado_reseñas->bind_param("s", $nombre_juego);
+    $resultado_reseñas->execute();
+    $comentarios = $resultado_reseñas->get_result();
+
+
+
     //Consultas de listas
     $sql_favorito = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 1";
     $res_favorito = $conexion->prepare($sql_favorito);
@@ -213,28 +229,23 @@
                 <section>
                     <h2>Reseñas y comentarios</h2>
                     <a class="comentar" onclick="abrirModalResena()"><i class="mas"></i>Comentar</a>
-                    <article>
-                        <div class="autor">
-                            <div class="avatar"><i class="usuario"></i></div>
-                            <div class="datos">
-                                <strong>Ezequiel</strong>
-                                <span>Ejemplo / reseña positiva</span>
+                    <?php while($comentario = $comentarios->fetch_assoc()) {?>
+                        <article>
+                            <div class="autor">
+                                <div class="avatar"><i class="usuario"></i></div>
+                                <div class="datos">
+                                    <strong><?= $comentario["username"] ?></strong>
+                                    <span><?= $comentario["fecha"] ?></span>
+                                </div>
+                                <?php if($comentario["me_gusta"] == 1): ?>
+                                    <span class="positivo">Me gusta</span>
+                                <?php else:?>
+                                    <span class="negativo">No me gusta</span>
+                                <?php endif ?>
                             </div>
-                            <span class="positivo">Me gusta</span>
-                        </div>
-                        <p>La exploración, el arte y la narrativa están a otro nivel. Me encantó el ritmo y la sensación de descubrir cada nuevo entorno.</p>
-                    </article>
-                    <article>
-                        <div class="autor">
-                            <div class="avatar"><i class="usuario"></i></div>
-                            <div class="datos">
-                                <strong>Luna</strong>
-                                <span>Ejemplo / reseña negativa</span>
-                            </div>
-                            <span class="negativo">No me gusta</span>
-                        </div>
-                        <p>Me costó entrar al ritmo inicial y sentí que la dificultad se disparaba demasiado rápido. No terminé de conectar con la historia.</p>
-                    </article>
+                            <p><?= $comentario["review"] ?></p>
+                        </article>
+                    <?php } ?>
                 </section>
             </div>
         </div>
