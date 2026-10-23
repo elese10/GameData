@@ -1,0 +1,765 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+    background-color: #0B0812;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+}
+
+i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: var(--icono);
+    mask: var(--icono);
+}
+
+.inicio    { --icono: url(../logos/inicio.svg); }
+.mas       { --icono: url(../logos/mas.svg); }
+.estrella  { --icono: url(../logos/estrella.svg); }
+.usuario   { --icono: url(../logos/usuario.svg); }
+.buscar    { --icono: url(../logos/buscar.svg); }
+.tendencia { --icono: url(../logos/tendencia.svg); }
+.libro     { --icono: url(../logos/libro.svg); }
+.volver    { --icono: url(../logos/volver.svg);}
+.borrar    { --icono: url(../logos/papelera.svg);}
+
+aside {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px;
+    background: #0E0B16;
+    border-right: 2px solid #242033;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #311376;
+    color: #F0ABFC;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.nombre {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.juego { color: #FFF; }
+.data  { color: #F0ABFC; }
+
+aside nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;  
+    margin-top: 28px;
+    flex: 1;
+}
+
+.nav-admin{
+    flex: 2;
+}
+
+.nav-admin h2{
+    font-size: 15px;
+    color: #F0ABFC;
+}
+
+a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #A9A3B8;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.activo {
+    background: #311376;
+    color: #FFF;
+    font-weight: 700;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: #17151F;
+    font-size: 15px;
+}
+
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #242033;
+    border-radius: 50%;
+    background: #0B0812;
+}
+
+.avatar i {
+    width: 14px;
+    height: 14px;
+}
+
+.datos {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.datos span {
+    color: #A9A3B8;
+    font-size: 12px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    min-width: 0;
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.buscador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    max-width: 560px;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #A9A3B8;
+}
+
+.buscador input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #FFF;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.buscador input::placeholder {
+    color: #A9A3B8;
+}
+
+.barra nav {
+    display: flex;
+    gap: 10px;
+}
+
+.barra nav i {
+    width: 16px;
+    height: 16px;
+}
+
+.barra nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 2px solid #242033;
+    background: #17151F;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.destacados {
+    display: grid;
+    grid-template-columns: 1fr 440px;
+    gap: 20px;
+}
+
+.destacado,
+.favoritos {
+    border-radius: 20px;
+    border: 2px solid #242033;
+    background: #17151F;
+    overflow: hidden;
+    flex: 0 0 100%;  
+    scroll-snap-align: start;
+}
+
+.carrusel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 16px;
+}
+
+.carrusel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.carrusel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.carrusel::-webkit-scrollbar-thumb {
+    background: #311376;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.carrusel::-webkit-scrollbar-thumb:hover {
+    background: #4a1fb0;
+}
+
+.carrusel::-webkit-scrollbar-button {
+    display: none;
+}
+
+.portada {
+    position: relative;
+    height: 250px;
+}
+
+.portada img {
+    height: 100%;
+}
+
+.portada span {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #311376;
+    color: #F0ABFC;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.destacado .info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+}
+
+.destacado h1 {
+    font-size: 28px;
+}
+
+.destacado p {
+    color: #A9A3B8;
+    font-size: 15px;
+    line-height: 150%;
+}
+
+.pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.etiquetas {
+    display: flex;
+    gap: 8px;
+}
+
+.etiquetas span {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 2px solid #242033;
+    background: #0B0812;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.ver {
+    padding: 10px 24px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #7C5CC4, #5B3FA0);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.favoritos {
+    display: grid;
+    grid-template-rows: auto repeat(6, 1fr);
+    gap: 12px;
+    padding: 20px;
+}
+
+.titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulo h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+}
+
+.titulo i {
+    color: #8B5CF6;
+}
+
+.titulo span {
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 2px solid #242033;
+    background: #0B0812;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.favoritos a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.favoritos img {
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.favoritos a div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.favoritos strong {
+    font-size: 15px;
+}
+
+.favoritos a div span {
+    color: #A9A3B8;
+    font-size: 12px;
+}
+
+.puesto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #242033;
+    background: #0B0812;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.agregados {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}  
+
+.agregados h2 {
+    color: #8B5CF6;
+    font-size: 20px;
+}
+
+.grilla {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.grilla article {
+    border-radius: 18px;
+    border: 2px solid #242033;
+    background: #17151F;
+    overflow: hidden;
+}
+
+.grilla img {
+    height: 150px;
+    border-radius: 10px;
+}
+
+.grilla .info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+}
+
+.grilla h3 {
+    font-size: 16px;
+}
+
+.grilla p {
+    color: #A9A3B8;
+    font-size: 12px;
+}
+
+.grilla .etiquetas {
+    margin-top: 6px;
+}
+
+.modal_overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    justify-content: center;
+    align-items: center; 
+    z-index: 9999;      
+}
+
+.modal_contenedor {
+    display: flex;
+    width: 720px;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: rgba(23, 21, 31, 0.80);
+    backdrop-filter: blur(9px);
+}
+
+.modal_header h2{
+    color: #FFF;
+    font-family: "Space Grotesk";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.modal_header p{
+    flex: 1 0 0;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.nombre_peticion{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.modal_contenedor form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    align-self: stretch;
+}
+
+.modal_contenedor form h2{
+    color: #8B5CF6;
+    font-family: Rajdhani;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.nombre_peticion input{
+    display: flex;
+    height: 56px;
+    padding: 0 16px;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    line-height: normal;
+}
+
+.descripcion_peticion{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.descripcion_peticion textarea{
+    display: flex;
+    height: 160px;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #A9A3B8;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    line-height: 150%;
+}
+
+.modal_botones{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+}
+
+.boton {
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    border: 2px solid #242033;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Modificadores específicos */
+.boton_cancelar {
+    padding: 0 20px;
+    background: #17151F;
+}
+
+.boton_agregar {
+    padding: 0 24px;
+    background: linear-gradient(180deg, #8B5CF6 0%, #7850D5 0.01%, #513690 100%);
+}
+
+
+
+.peticiones{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+ 
+.tarjeta-peticion{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: #17151F;
+}
+ 
+/* Columna de texto (ocupa todo el espacio que sobra) */
+.peticion-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+ 
+.titulo-peticion{
+    margin: 0;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 28px;
+    font-weight: 70w0;
+    line-height: normal;
+}
+ 
+.descripcion-peticion{
+    margin: 0;
+    color: #D6D0E0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+ 
+/* Columna de botones */
+.botones-peticiones{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+    width: 170px;
+}
+ 
+.boton-peticion{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 14px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+ 
+.icono-boton{
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+ 
+.boton-aprobar{
+    background: #22D3A6;
+    color: #0B0812;
+}
+ 
+.boton-rechazar{
+    background: #8B1A1A;
+    color: #FFF;
+}
+
+
+.contenedor_lista{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.cabecera{
+    display: flex;
+    height: 104px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.cabecera h1{
+    color: #8B5CF6;
+    font-family: "Space Grotesk";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 110%;
+}
+
+.cabecera p{
+    color: #D6D0E0;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.juegos_ista{
+    display: flex;
+    height: 44px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.vacio{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.vacio .img{
+    width: 240px;
+    height: 180px;
+    background: url(../logos/gatoGamer.png) #0B0812 50% / cover no-repeat;
+}
+
+.vacio h1{
+    color: #D6D0E0;
+    text-align: center;
+    font-family: "Space Grotesk";
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.vacio p{
+    color: #A9A3B8;
+    text-align: center;
+    font-family: "Space Grotesk";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 27px;
+}
