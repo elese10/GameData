@@ -669,3 +669,48 @@ button, input, textarea, select {
     .peticion-acciones { flex-direction: row; width: auto; }
     .peticion-acciones .boton { flex: 1; }
 }
+
+/* Ajustes para pantallas muy estrechas */
+@media (max-width: 420px) {
+    .pagina-agregar-juego {
+        padding: 10px;
+    }
+
+    .panel-formulario {
+        padding: 18px 14px 20px;
+    }
+
+    .fila-categorias {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .acciones-formulario {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .boton-cancelar,
+    .boton-agregar {
+        width: 100%;
+    }
+
+    .contenido {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .peticion,
+    .tarjeta-peticion {
+        padding: 16px;
+    }
+
+    .peticion-acciones,
+    .botones-peticiones {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .titulo-peticion {
+        font-size: 23px;
+    }
+}
