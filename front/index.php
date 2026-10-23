@@ -17,6 +17,15 @@
     $resultado = $conexion->query($sql_juegos);
     $juegos = $resultado->fetch_all(MYSQLI_ASSOC);
     $destacados = array_rand($juegos, 3);
+
+    $busqueda = $_POST["q"];
+    if ($busqueda != '') {
+        $sql_busqueda = "SELECT * FROM Juego WHERE nombre LIKE '%$busqueda%'";
+        $resultado = $conexion->query($sql_busqueda);
+        if($resultado){
+            
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -96,9 +105,9 @@
     <main>
         <!-- //barra de busqueda y botones de listas// -->
         <div class="barra">
-            <form class="buscador" action="#">
+            <form class="buscador" action="" method="POST">
                 <i class="buscar"></i>
-                <input type="search" placeholder="Buscar juegos, usuarios">
+                <input type="search" placeholder="Buscar juegos" name="q">
             </form>
             <nav>
                 <a href="lista.php?lista=favoritos"><i class="estrella"></i>Favoritos</a>

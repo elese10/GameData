@@ -26,7 +26,7 @@
     JOIN Categoria AS c ON jc.id_categoria = c.id_categoria
     WHERE j.id_juego IN 
     (SELECT id_juego FROM Usuario_juego WHERE id_usuario = ? AND id_lista = ?)
-    GROUP BY j.id_juego, j.nombre, j.img_url ;";
+    GROUP BY j.id_juego, j.nombre, j.img_url;";
     $resultado = $conexion->prepare($sql);
     $resultado->bind_param("ii", $id_usuario, $lista);
     $resultado->execute();
@@ -59,8 +59,8 @@
             </div>
         </a>
 
-        <!-- //si el usuario es un usuario comun tiene este nav// -->
-        <nav>
+            <!-- //si el usuario es un usuario comun tiene este nav// -->
+            <nav>
             <a href="index.php"><i class="inicio"></i>Inicio</a>
             <?php if($rol == 0):?>
                 <a class="boton_modal" onclick="abrirModal()"><i class="mas"></i>Solicitar Juego</a>
