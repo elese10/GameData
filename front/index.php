@@ -19,12 +19,19 @@
     $destacados = array_rand($juegos, 3);
 
     $busqueda = $_POST["q"];
-    if ($busqueda != '') {
-        $sql_busqueda = "SELECT * FROM Juego WHERE nombre LIKE '%$busqueda%'";
-        $resultado = $conexion->query($sql_busqueda);
-        if($resultado){
-            
+
+    if ($busqueda !== '') {
+        $juegos = array_filter($juegos, function($juego) use ($busqueda) {
+            return stripos($juego['nombre'], $busqueda) !== false;
+        });
+
+        if (empty($juegos)) {
+            header("Location: index.php?mensaje=busquedaInexistente");
+            exit;
         }
+    }else if($busqueda == ''){
+        header("Location: index.php"); 
+        exit;
     }
 ?>
 <!DOCTYPE html>
@@ -115,101 +122,130 @@
                 <a href="lista.php?lista=posesion"><i class="libro"></i>En posesión</a>
             </nav>
         </div>
-        <section class="destacados">
-            <!-- //Carrusel de juegos Destacados// -->
-            <section class="carrusel">
-                <?php
-                foreach($destacados as $indice){
-                    $destacado = $juegos[$indice]
-                ?>
-                    <article class="destacado">
-                    <div class="portada">
-                        <img src="<?= $destacado["img_url"] ?>" alt="">
-                        <span>Destacado</span>
-                    </div>
-                    <div class="info">
-                        <h1><?= $destacado["nombre"] ?></h1>
-                        <p><?= $destacado["descripcion"] ?></p>
-                        <div class="pie">
-                            <div class="etiquetas">
-                                <?php  $cats = explode(",", $destacado["Categorias"])?>
-                                <?php foreach($cats as $cat){?>
-                                    <span><?= $cat ?></span>       
-                                <?php } ?> 
-                            </div>
-                            <a href="juego.php?juego=<?= str_replace(' ', '-', $destacado["nombre"]) ?>" class="ver">Ver</a>
+
+
+        <?php if($busqueda == ''): ?>
+            <section class="destacados">
+                <!-- //Carrusel de juegos Destacados// -->
+                <section class="carrusel">
+                    <?php
+                    foreach($destacados as $indice){
+                        $destacado = $juegos[$indice]
+                    ?>
+                        <article class="destacado">
+                        <div class="portada">
+                            <img src="<?= $destacado["img_url"] ?>" alt="">
+                            <span>Destacado</span>
                         </div>
+                        <div class="info">
+                            <h1><?= $destacado["nombre"] ?></h1>
+                            <p><?= $destacado["descripcion"] ?></p>
+                            <div class="pie">
+                                <div class="etiquetas">
+                                    <?php  $cats = explode(",", $destacado["Categorias"])?>
+                                    <?php foreach($cats as $cat){?>
+                                        <span><?= $cat ?></span>       
+                                    <?php } ?> 
+                                </div>
+                                <a href="juego.php?juego=<?= str_replace(' ', '-', $destacado["nombre"]) ?>" class="ver">Ver</a>
+                            </div>
+                        </div>
+                        </article>
+                    <?php
+                    };
+                    ?>
+                </section>
+                
+                <!-- //Seccion de nuestros favoritos// -->
+                <section class="favoritos">
+                    <div class="titulo">
+                        <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
+                        <span>6 juegos</span>
                     </div>
-                    </article>
-                <?php
-                };
-                ?>
+                    <a href="juego.php?id=2">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/374320/header.jpg" alt="Dark Souls 3">
+                        <div><strong>Dark Souls 3</strong><span>Acción, RPG</span></div>
+                        <span class="puesto">1</span>
+                    </a>
+                    <a href="juego.php?id=3">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg" alt="Elden Ring">
+                        <div><strong>Elden Ring</strong><span>Acción, RPG</span></div>
+                        <span class="puesto">2</span>
+                    </a>
+                    <a href="juego.php?id=4">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077">
+                        <div><strong>Cyberpunk 2077</strong><span>RPG</span></div>
+                        <span class="puesto">3</span>
+                    </a>
+                    <a href="juego.php?id=5">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg" alt="Baldur's Gate 3">
+                        <div><strong>Baldur's Gate 3</strong><span>RPG</span></div>
+                        <span class="puesto">4</span>
+                    </a>
+                    <a href="juego.php?id=6">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg" alt="The Witcher 3">
+                        <div><strong>The Witcher 3</strong><span>Aventura, RPG</span></div>
+                        <span class="puesto">5</span>
+                    </a>
+                    <a href="juego.php?id=7">
+                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg" alt="Red Dead Redemption 2">
+                        <div><strong>Red Dead Redemption 2</strong><span>Aventura</span></div>
+                        <span class="puesto">6</span>
+                    </a>
+                </section>
             </section>
             
-            <!-- //Seccion de nuestros favoritos// -->
-            <section class="favoritos">
-                <div class="titulo">
-                    <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
-                    <span>6 juegos</span>
-                </div>
-                <a href="juego.php?id=2">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/374320/header.jpg" alt="Dark Souls 3">
-                    <div><strong>Dark Souls 3</strong><span>Acción, RPG</span></div>
-                    <span class="puesto">1</span>
-                </a>
-                <a href="juego.php?id=3">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg" alt="Elden Ring">
-                    <div><strong>Elden Ring</strong><span>Acción, RPG</span></div>
-                    <span class="puesto">2</span>
-                </a>
-                <a href="juego.php?id=4">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077">
-                    <div><strong>Cyberpunk 2077</strong><span>RPG</span></div>
-                    <span class="puesto">3</span>
-                </a>
-                <a href="juego.php?id=5">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg" alt="Baldur's Gate 3">
-                    <div><strong>Baldur's Gate 3</strong><span>RPG</span></div>
-                    <span class="puesto">4</span>
-                </a>
-                <a href="juego.php?id=6">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg" alt="The Witcher 3">
-                    <div><strong>The Witcher 3</strong><span>Aventura, RPG</span></div>
-                    <span class="puesto">5</span>
-                </a>
-                <a href="juego.php?id=7">
-                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg" alt="Red Dead Redemption 2">
-                    <div><strong>Red Dead Redemption 2</strong><span>Aventura</span></div>
-                    <span class="puesto">6</span>
-                </a>
-            </section>
-        </section>
-        
-        <!-- //Seccion de todos los juegos agregados en nuestro catalogo// -->
-        <section class="agregados">
-            <h2>Juegos agregados</h2>
-            <div class="grilla">
-                <?php
-                foreach($juegos as $juego){
-                ?>
-                    <article>
-                        <!-- str_replace remplaza los simbolos de un string que asignes por otro simbolo que le asignes -->
-                        <a href="juego.php?juego=<?= str_replace(' ', '-', $juego["nombre"]) ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
-                        <div class="info">
-                            <h3><?= $juego["nombre"] ?></h3>
-                            <div class="etiquetas">
-                                <?php  $cats = explode(",", $juego["Categorias"])?>
-                                <?php foreach($cats as $cat){?>
-                                    <span><?= $cat ?></span>       
-                                <?php } ?> 
+            <!-- //Seccion de todos los juegos agregados en nuestro catalogo// -->
+            <section class="agregados">
+                <h2>Juegos agregados</h2>
+                <div class="grilla">
+                    <?php
+                    foreach($juegos as $juego){
+                    ?>
+                        <article>
+                            <!-- str_replace remplaza los simbolos de un string que asignes por otro simbolo que le asignes -->
+                            <a href="juego.php?juego=<?= str_replace(' ', '-', $juego["nombre"]) ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
+                            <div class="info">
+                                <h3><?= $juego["nombre"] ?></h3>
+                                <div class="etiquetas">
+                                    <?php  $cats = explode(",", $juego["Categorias"])?>
+                                    <?php foreach($cats as $cat){?>
+                                        <span><?= $cat ?></span>       
+                                    <?php } ?> 
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                <?php
-                };
-                ?>
-            </div>
-        </section>
+                        </article>
+                    <?php
+                    };
+                    ?>
+                </div>
+            </section>
+        <?php else: ?>
+            <section class="agregados">
+                <h2>Resultados de busqueda</h2>
+                <div class="grilla">
+                    <?php
+                    foreach($juegos as $juego){
+                    ?>
+                        <article>
+                            <!-- str_replace remplaza los simbolos de un string que asignes por otro simbolo que le asignes -->
+                            <a href="juego.php?juego=<?= str_replace(' ', '-', $juego["nombre"]) ?>"><img src="<?= $juego["img_url"]?>" alt="<?= $juego["nombre"]?>"></a>
+                            <div class="info">
+                                <h3><?= $juego["nombre"] ?></h3>
+                                <div class="etiquetas">
+                                    <?php  $cats = explode(",", $juego["Categorias"])?>
+                                    <?php foreach($cats as $cat){?>
+                                        <span><?= $cat ?></span>       
+                                    <?php } ?> 
+                                </div>
+                            </div>
+                        </article>
+                    <?php
+                    };
+                    ?>
+                </div>
+            </section>  
+        <?php endif ?>
     </main>
     <script>
         function abrirModal() {
