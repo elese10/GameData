@@ -15,6 +15,7 @@
         if (password_verify($pass, $user['pwd'])) {
             $_SESSION["id_usuario"] = $user['id_usuario'];
             $_SESSION["username"] = $user['username'];
+            $_SESSION["correo"] = $user['correo'];
             $_SESSION["tipo_user"] = $user['tipo_user'];
             $_SESSION["fecha_creacion"] = $user['fecha_creacion'];
             header("Location: ../front/index.php");

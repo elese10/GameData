@@ -1,3 +1,37 @@
+<?php
+    session_start();
+    if (!isset($_SESSION["id_usuario"])) {
+        header("Location: http://localhost/GameData/front/logins/login.php");
+        exit;
+    }
+    require "../../back/conexiones/conexion.php";
+
+    $id_usuario = $_SESSION["id_usuario"];
+    $nombre_usuario = $_SESSION["username"];
+    $fecha_creacion = $_SESSION["fecha_creacion"];
+
+    $sql_perfil = "SELECT descripcion, img_url FROM Perfil WHERE id_usuario = ?";
+    $perfil = $conexion->prepare($sql_perfil);
+    $perfil->bind_param("i", $id_usuario);
+    $perfil->execute();
+    $resultado_perfil = $perfil->get_result();
+    if ($resultado_perfil->num_rows > 0) {
+        $fila_perfil = $resultado_perfil->fetch_assoc();
+        if($fila_perfil["descripcion"] == ''){
+            $descripcion = 0;
+        }else{
+            $descripcion = $fila_perfil["descripcion"];
+        }
+        if($fila_perfil["img_url"] == ''){
+            $img_url = 0;
+        }else{
+            $img_url = $fila_perfil["img_url"];
+        }
+    }else{
+        $descripcion = 0;
+        $img_url = 0;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,42 +39,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/perfil.css">
 </head>
 <body>
     <main class="contenedor">
         <header class="barra">
-            <button class="boton boton-secundario" id="btn-volver" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <a class="boton boton-volver" id="btn-volver" href="../index.php">
+                <i class="volver"></i>
                 Volver
-            </button>
+            </a>
             <div class="acciones">
-                <button class="boton boton-secundario" id="btn-modificar" type="button">Modificar perfil</button>
-                <button class="boton boton-primario" id="btn-logout" type="button">Cerrar sesión</button>
+                <form action="modificar_perfil.php" method="POST">
+                    <input type="hidden" value="<?= $descripcion ?>" name="descripcion">
+                    <input type="hidden" value="<?= $img_url ?>" name="img_url">
+                    <button class="boton" id="btn-modificar" type="submit">Modificar perfil</button>
+                </form>
+                <a class="boton boton-primario" id="btn-logout" href="#">Cerrar sesión</a>
             </div>
         </header>
 
         <section class="banner">
-            <div class="usuario">
+            <div class="banner-fondo" style="background-image: url(../logos/banner.jpg);"></div>
+
+            <div class="banner-izq">
                 <div class="avatar" aria-hidden="true">
-                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
+                    <?php if($img_url == 0) :?>
+                        <i class="usuario"></i>
+                    <?php else: ?>
+                        <img src="<?= $img_url ?>" alt="no">
+                    <?php endif ?>
                 </div>
                 <div class="datos">
-                    <h1 id="nombre">Usuario</h1>
-                    <span class="fecha"><i class="punto"></i>Desde: <span id="desde">05-07-2026</span></span>
+                    <h1 id="nombre"><?= $nombre_usuario ?></h1>
+                    <span class="fecha"><span class="punto"></span>Desde: <span id="desde"><?= $fecha_creacion ?></span></span>
                 </div>
             </div>
+
             <div class="biografia">
                 <h2>Biografía</h2>
-                <p id="bio">Soy un jugador que registra sus juegos, comparte listas y busca recomendaciones con un toque personal. Me gusta explorar mundos oscuros, seguir historias densas y completar colecciones con cuidado.</p>
+                <?php if($descripcion == 0): ?>
+                    <p id="bio">Aun no hay descripcion. Este jugador prefiere dejar que sus partidas hablen por él.</p>
+                <?php else: ?>
+                    <p id="bio"><?= $descripcion ?></p>
+                <?php endif ?>
             </div>
         </section>
 
-        <h2 class="titulo-seccion">Listas</h2>
-        <section class="listas" id="listas"></section>
-    </main>
+        <section class="seccion-listas">
+            <h2 class="titulo-seccion">Listas</h2>
 
-    <scrip src="script.js"></script>
-  </body>
+            <div class="listas" id="listas">
+
+                <a class="lista" href="#">
+                    <div class="lista-cabecera">
+                        <div class="lista-titulo">
+                            <i class="estrella"></i>
+                            <span>Favoritos</span>
+                        </div>
+                        <span class="contador">2 juegos</span>
+                    </div>
+                    <ul class="juegos">
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">Favorito 1</p>
+                            </div>
+                            <span class="posicion">1</span>
+                        </li>
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">Favorito 2</p>
+                            </div>
+                            <span class="posicion">2</span>
+                        </li>
+                    </ul>
+                </a>
+
+                <a class="lista" href="#">
+                    <div class="lista-cabecera">
+                        <div class="lista-titulo">
+                            <i class="mas"></i>
+                            <span>Deseados</span>
+                        </div>
+                        <span class="contador">2 juegos</span>
+                    </div>
+                    <ul class="juegos">
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">Deseado 1</p>
+                            </div>
+                            <span class="posicion">1</span>
+                        </li>
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">Deseado 2</p>
+                            </div>
+                            <span class="posicion">2</span>
+                        </li>
+                    </ul>
+                </a>
+
+                <a class="lista" href="#">
+                    <div class="lista-cabecera">
+                        <div class="lista-titulo">
+                            <i class="libro"></i>
+                            <span>En posesión</span>
+                        </div>
+                        <span class="contador">2 juegos</span>
+                    </div>
+                    <ul class="juegos">
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">En posesión 1</p>
+                            </div>
+                            <span class="posicion">1</span>
+                        </li>
+                        <li class="juego">
+                            <div class="portada"></div>
+                            <div class="juego-info">
+                                <p class="juego-nombre">Dark Souls</p>
+                                <p class="juego-etiqueta">En posesión 2</p>
+                            </div>
+                            <span class="posicion">2</span>
+                        </li>
+                    </ul>
+                </a>
+
+            </div>
+        </section>
+    </main>
+</body>
 </html>

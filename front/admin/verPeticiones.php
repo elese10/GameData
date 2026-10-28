@@ -45,11 +45,11 @@
         <?php if($rol == 1) :?>
             <nav class="nav-admin"> 
                 <h2>Herramientas de Admin</h2>           
-                <a href="admin/verPeticiones.php" class="activo"><i class="libro"></i>Ver solicitudes</a>
-                <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
+                <a href="verPeticiones.php" class="activo"><i class="libro"></i>Ver solicitudes</a>
+                <a href="anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="perfil.php" class="perfil">
+        <a href="../user/perfil.php" class="perfil">
             <div class="avatar"><i class="usuario"></i></div>
             <div class="datos">
                 <strong><?= $nombre_usuario ?></strong>

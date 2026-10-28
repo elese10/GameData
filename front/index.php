@@ -54,7 +54,7 @@
                 <span class="data">Data</span>
             </div>
         </a>
-
+        
         <!-- //si el usuario es un usuario comun tiene este nav// -->
         <nav>
             <a href="index.php" class="activo"><i class="inicio"></i>Inicio</a>
@@ -73,7 +73,7 @@
                 <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="perfil.php" class="perfil">
+        <a href="user/perfil.php" class="perfil">
             <div class="avatar"><i class="usuario"></i></div>
             <div class="datos">
                 <strong><?= $nombre_usuario ?></strong>

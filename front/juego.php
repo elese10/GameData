@@ -100,7 +100,7 @@
             <button class="boton_lista"><a href="index.php"><i class="volver"></i>Volver</a></button>
         </div>
         <div style="position: relative;">
-             <h1><?= $juego["nombre"] ?></h1>
+            <h1><?= $juego["nombre"] ?></h1>
             <?php if($rol == 1):?>
                 <div class="botones-admin">
                     <button class="boton modificar"><a href="admin/modificarJuego.php?id_juego=<?= $juego["id_juego"] ?>">Editar</a></button>
