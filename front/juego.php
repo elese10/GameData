@@ -1,7 +1,7 @@
 <?php
     session_start();
     require "../back/conexiones/conexion.php";
-     if (!isset($_SESSION["id_usuario"])) {
+    if (!isset($_SESSION["id_usuario"])) {
         header("Location: http://localhost/GameData/front/index.php");
         exit;
     }
@@ -27,12 +27,14 @@
     $juego = $datos->fetch_assoc();
 
 
-    $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username 
+    $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username, p.img_url 
     FROM Review AS r 
     JOIN Usuario AS u 
     ON r.id_usuario = u.id_usuario 
     JOIN Juego AS j 
     ON r.id_juego = j.id_juego 
+    JOIN Perfil AS p
+    ON r.id_usuario = p.id_usuario
     WHERE j.nombre = ?";
 
     $resultado_reseñas = $conexion->prepare($sql_comentarios);
@@ -230,9 +232,18 @@
                     <h2>Reseñas y comentarios</h2>
                     <a class="comentar" onclick="abrirModalResena()"><i class="mas"></i>Comentar</a>
                     <?php while($comentario = $comentarios->fetch_assoc()) {?>
+                        <?php 
+                            $img_url = $comentario["img_url"] ?? 0;
+                        ?>
                         <article>
                             <div class="autor">
-                                <div class="avatar"><i class="usuario"></i></div>
+                                <div class="avatar">
+                                    <?php if($img_url === 0): ?>
+                                        <i class="usuario"></i>
+                                    <?php else: ?>
+                                        <img src="<?= $img_url ?>" alt="">
+                                    <?php endif ?>
+                                </div>
                                 <div class="datos">
                                     <strong><?= $comentario["username"] ?></strong>
                                     <span><?= $comentario["fecha"] ?></span>
@@ -260,7 +271,7 @@
             document.getElementById('modalResena').style.display = 'none';
         }
 
-         function abrirModalResena() {
+        function abrirModalResena() {
             document.getElementById('modalResena').style.display = 'flex';
         }
     </script>

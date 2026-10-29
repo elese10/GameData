@@ -9,27 +9,38 @@
     $id_usuario = $_SESSION["id_usuario"];
     $nombre_usuario = $_SESSION["username"];
     $fecha_creacion = $_SESSION["fecha_creacion"];
-
-    $sql_perfil = "SELECT descripcion, img_url FROM Perfil WHERE id_usuario = ?";
-    $perfil = $conexion->prepare($sql_perfil);
-    $perfil->bind_param("i", $id_usuario);
-    $perfil->execute();
-    $resultado_perfil = $perfil->get_result();
-    if ($resultado_perfil->num_rows > 0) {
-        $fila_perfil = $resultado_perfil->fetch_assoc();
-        if($fila_perfil["descripcion"] == ''){
-            $descripcion = 0;
-        }else{
-            $descripcion = $fila_perfil["descripcion"];
-        }
-        if($fila_perfil["img_url"] == ''){
-            $img_url = 0;
-        }else{
-            $img_url = $fila_perfil["img_url"];
-        }
-    }else{
+    $descripcion = $_SESSION["descripcion"];
+    $img_url = $_SESSION["img_url"];
+    if($descripcion == ''){
         $descripcion = 0;
+    }
+    if($img_url == ''){
         $img_url = 0;
+    }
+    
+
+    $sql_juegosListas = "SELECT Juego.id_juego, Juego.img_url, Juego.nombre AS nombre_juego, Lista.nombre AS nombre_lista FROM Juego
+    JOIN Usuario_juego ON Juego.id_juego = Usuario_juego.id_juego
+    JOIN Lista ON Usuario_juego.id_lista = Lista.id_lista
+    WHERE Usuario_juego.id_usuario = ?";
+
+    $listas = $conexion->prepare($sql_juegosListas);
+    $listas->bind_param("i", $id_usuario);
+    $listas->execute();
+    $resultado_listas = $listas->get_result();
+    $favoritos=[];
+    $deseos=[];
+    $posesion=[];
+    if ($resultado_listas->num_rows > 0) {
+        while($fila = $resultado_listas->fetch_assoc()){
+            if ($fila["nombre_lista"] === "favoritos") {
+                $favoritos[] = $fila;
+            }elseif($fila["nombre_lista"] === "deseo"){
+                $deseos[] = $fila;
+            }elseif($fila["nombre_lista"] === "posesion"){
+                $posesion[] = $fila;
+            }
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -88,94 +99,74 @@
         </section>
 
         <section class="seccion-listas">
+
             <h2 class="titulo-seccion">Listas</h2>
-
             <div class="listas" id="listas">
-
-                <a class="lista" href="#">
+                <a class="lista" href="../lista.php?lista=favoritos">
                     <div class="lista-cabecera">
                         <div class="lista-titulo">
                             <i class="estrella"></i>
                             <span>Favoritos</span>
                         </div>
-                        <span class="contador">2 juegos</span>
+                        <span class="contador"><?= count($favoritos) . " juegos" ?></span>
                     </div>
                     <ul class="juegos">
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">Favorito 1</p>
-                            </div>
-                            <span class="posicion">1</span>
-                        </li>
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">Favorito 2</p>
-                            </div>
-                            <span class="posicion">2</span>
-                        </li>
+                        <?php foreach($favoritos as $indice => $favorito){?>
+                            <li class="juego">
+                                <div class="portada"><img src="<?= $favorito["img_url"] ?>" alt=""> </div>
+                                <div class="juego-info">
+                                    <p class="juego-nombre"><?= $favorito["nombre_juego"] ?></p>
+                                    <p class="juego-etiqueta">Favorito <?= $indice+1 ?></p>
+                                </div>
+                                <span class="posicion"><?= $indice+1 ?></span>
+                            </li>
+                        <?php }; ?>
                     </ul>
                 </a>
 
-                <a class="lista" href="#">
+                <a class="lista" href="../lista.php?lista=deseados">
                     <div class="lista-cabecera">
                         <div class="lista-titulo">
                             <i class="mas"></i>
                             <span>Deseados</span>
                         </div>
-                        <span class="contador">2 juegos</span>
+                        <span class="contador"><?= count($deseos) . " juegos" ?></span>
                     </div>
                     <ul class="juegos">
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">Deseado 1</p>
-                            </div>
-                            <span class="posicion">1</span>
-                        </li>
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">Deseado 2</p>
-                            </div>
-                            <span class="posicion">2</span>
-                        </li>
+                        <?php foreach($deseos as $indice => $deseado){?>
+                            <li class="juego">
+                                <div class="portada"><img src="<?= $deseado["img_url"] ?>" alt=""> </div>
+                                <div class="juego-info">
+                                    <p class="juego-nombre"><?= $deseado["nombre_juego"] ?></p>
+                                    <p class="juego-etiqueta">Favorito <?= $indice+1 ?></p>
+                                </div>
+                                <span class="posicion"><?= $indice+1 ?></span>
+                            </li>
+                        <?php }; ?>
                     </ul>
                 </a>
 
-                <a class="lista" href="#">
+                <a class="lista" href="../lista.php?lista=posesion">
                     <div class="lista-cabecera">
                         <div class="lista-titulo">
                             <i class="libro"></i>
                             <span>En posesión</span>
                         </div>
-                        <span class="contador">2 juegos</span>
+                        <span class="contador"><?= count($posesion) . " juegos" ?></span>
                     </div>
                     <ul class="juegos">
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">En posesión 1</p>
-                            </div>
-                            <span class="posicion">1</span>
-                        </li>
-                        <li class="juego">
-                            <div class="portada"></div>
-                            <div class="juego-info">
-                                <p class="juego-nombre">Dark Souls</p>
-                                <p class="juego-etiqueta">En posesión 2</p>
-                            </div>
-                            <span class="posicion">2</span>
-                        </li>
+                        <?php foreach($posesion as $indice => $enPosesion){?>
+                            <li class="juego">
+                                <div class="portada"><img src="<?= $enPosesion["img_url"] ?>" alt=""> </div>
+                                <div class="juego-info">
+                                    <p class="juego-nombre"><?= $enPosesion["nombre_juego"] ?></p>
+                                    <p class="juego-etiqueta">Favorito <?= $indice+1 ?></p>
+                                </div>
+                                <span class="posicion"><?= $indice+1 ?></span>
+                            </li>
+                        <?php }; ?>
                     </ul>
                 </a>
-
             </div>
         </section>
     </main>

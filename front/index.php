@@ -8,6 +8,7 @@
     $id_usuario = $_SESSION["id_usuario"];
     $nombre_usuario = $_SESSION["username"];
     $rol = $_SESSION["tipo_user"];
+    $img_url = $_SESSION["img_url"] ?? 0;
 
     $sql_juegos = "SELECT j.id_juego, j.nombre, j.descripcion, j.img_url, GROUP_CONCAT(c.nombre SEPARATOR ', ') AS Categorias
     FROM Juego AS j
@@ -74,7 +75,13 @@
             </nav>
         <?php endif?>
         <a href="user/perfil.php" class="perfil">
-            <div class="avatar"><i class="usuario"></i></div>
+            <div class="avatar">
+                <?php if($img_url !== 0): ?>
+                    <img src="<?= $img_url ?>" alt="">
+                <?php else: ?>
+                    <i class="usuario"></i>
+                <?php endif ?>
+            </div>
             <div class="datos">
                 <strong><?= $nombre_usuario ?></strong>
                 <span>Perfil principal</span>

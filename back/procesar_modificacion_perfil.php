@@ -29,10 +29,15 @@
         if($correo != $_SESSION["correo"]) {
             $_SESSION["correo"] = $correo;
         }
+        if($descripcion != $_SESSION["descripcion"]) {
+            $_SESSION["descripcion"] = $descripcion;
+        }
+        if($img_url != $_SESSION["img_url"]) {
+            $_SESSION["img_url"] = $img_url;
+        }
         header("Location: ../front/user/perfil.php");
         exit;
     } else{
         echo "fallo";
     }
-
 ?>
