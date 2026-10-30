@@ -50,7 +50,7 @@
                 <a href="anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="../user/perfil.php" class="perfil">
+        <a href="../user/perfil.php?perfil=<?=$nombre_usuario?>" class="perfil">
             <div class="avatar">
                 <?php if($img_url !== 0): ?>
                         <img src="<?= $img_url ?>" alt="">

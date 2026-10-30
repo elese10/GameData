@@ -6,11 +6,20 @@
     }
     require "../../back/conexiones/conexion.php";
 
-    $id_usuario = $_SESSION["id_usuario"];
-    $nombre_usuario = $_SESSION["username"];
-    $fecha_creacion = $_SESSION["fecha_creacion"];
-    $descripcion = $_SESSION["descripcion"];
-    $img_url = $_SESSION["img_url"];
+    $nombre_usuario = $_GET["perfil"];
+    $sql_perfil = "SELECT u.id_usuario, u.username, u.fecha_creacion, p.descripcion, p.img_url 
+    FROM Usuario AS u
+    JOIN Perfil AS p ON u.id_usuario = p.id_usuario WHERE u.username = ?";
+    $resultado = $conexion->prepare($sql_perfil);
+    $resultado->bind_param("s", $nombre_usuario);
+    $resultado->execute();
+    $perfil = $resultado->get_result()->fetch_assoc();
+
+    $id_usuario = $perfil["id_usuario"];
+    $descripcion = $perfil["descripcion"];
+    $img_url = $perfil["img_url"];
+    $fecha_creacion = $perfil["fecha_creacion"];
+
     
     if($descripcion == ''){
         $descripcion = 0;
@@ -63,12 +72,14 @@
                 Volver
             </a>
             <div class="acciones">
-                <form action="modificar_perfil.php" method="POST">
-                    <input type="hidden" value="<?= $descripcion ?>" name="descripcion">
-                    <input type="hidden" value="<?= $img_url ?>" name="img_url">
-                    <button class="boton" id="btn-modificar" type="submit">Modificar perfil</button>
-                </form>
-                <a class="boton boton-primario" id="btn-logout" href="../../back/procesar_modificacion_perfil.php?accion=cerrarsesion">Cerrar sesión</a>
+                <?php if($nombre_usuario == $_SESSION["username"]): ?>
+                    <form action="modificar_perfil.php" method="POST">
+                        <input type="hidden" value="<?= $descripcion ?>" name="descripcion">
+                        <input type="hidden" value="<?= $img_url ?>" name="img_url">
+                        <button class="boton" id="btn-modificar" type="submit">Modificar perfil</button>
+                    </form>
+                    <a class="boton boton-primario" id="btn-logout" href="../../back/procesar_modificacion_perfil.php?accion=cerrarsesion">Cerrar sesión</a>
+                <?php endif ?>
             </div>
         </header>
 

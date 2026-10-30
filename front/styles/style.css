@@ -278,7 +278,7 @@ main {
 
 .portada {
     position: relative;
-    height: 250px;
+    height: 200px;
 }
 
 .portada img {
@@ -301,7 +301,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    padding: 24px;
+    padding: 14px;
 }
 
 .destacado h1 {
@@ -311,7 +311,7 @@ main {
 .destacado p {
     color: #A9A3B8;
     font-size: 15px;
-    line-height: 150%;
+    line-height: 120%;
 }
 
 .pie {
@@ -346,8 +346,7 @@ main {
 .favoritos {
     display: grid;
     grid-template-rows: auto repeat(6, 1fr);
-    gap: 12px;
-    padding: 20px;
+    padding: 10px;
 }
 
 .titulo {
@@ -379,7 +378,7 @@ main {
 .favoritos a {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
 }
 
 .favoritos img {

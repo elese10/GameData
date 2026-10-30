@@ -82,7 +82,7 @@
 
         <div class="acciones">
             <button class="boton boton-guardar" type="submit">Guardar</button>
-            <a class="boton boton-cancelar" href="perfil.php">Cancelar</a>
+            <a class="boton boton-cancelar" href="perfil.php?perfil=<?= $nombre_usuario ?>">Cancelar</a>
         </div>
     </form>
     <script>

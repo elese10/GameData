@@ -175,7 +175,7 @@
                 <!-- //Seccion de nuestros favoritos// -->
                 <section class="favoritos">
                     <div class="titulo">
-                        <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
+                        <h2><i class="tendencia"></i>Juegos destacados</h2>
                         <span>6 juegos</span>
                     </div>
                     <?php foreach($juegos_destacados as $indice => $juego_destacado){?>
