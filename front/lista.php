@@ -123,9 +123,9 @@
     <main>
         <!-- //barra de busqueda y botones de listas// -->
         <div class="barra">
-            <form class="buscador" action="#">
+            <form class="buscador" action="index.php" method="POST">
                 <i class="buscar"></i>
-                <input type="search" placeholder="Buscar juegos, usuarios">
+                <input type="search" placeholder="Buscar juegos, usuarios" name="q">
             </form>
             <nav>
                 <?php if($lista == 1) :?>

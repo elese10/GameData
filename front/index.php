@@ -35,7 +35,12 @@
             return stripos($juego['nombre'], $busqueda) !== false;
         });
 
-        if (empty($juegos)) {
+        $sql_usuarios = "SELECT u.id_usuario, u.username, p.img_url FROM Usuario AS u
+        JOIN Perfil AS p ON u.id_usuario = p.id_usuario WHERE u.username LIKE '%$busqueda%'";
+        $res_usuarios = $conexion->query($sql_usuarios);
+        $usuarios = $res_usuarios->fetch_all(MYSQLI_ASSOC);
+
+        if (empty($juegos) && empty($usuarios)) {
             header("Location: index.php?mensaje=busquedaInexistente");
             exit;
         }
@@ -72,7 +77,7 @@
                 <a class="boton_modal" onclick="abrirModal()"><i class="mas"></i>Solicitar Juego</a>
             <?php endif?>
             <a href="resenas.php"><i class="estrella"></i>Reseñas</a>
-            <a href="amigos.php"><i class="usuario"></i>Amigos</a>
+            <a href="user/amigos.php"><i class="usuario"></i>Amigos</a>
         </nav>
 
         <!-- //si el usuario es un administrador tiene este nav// -->
@@ -138,7 +143,6 @@
                 <a href="lista.php?lista=posesion"><i class="libro"></i>En posesión</a>
             </nav>
         </div>
-
 
         <?php if($busqueda == ''): ?>
             <section class="destacados">
@@ -216,6 +220,7 @@
         <?php else: ?>
             <section class="agregados">
                 <h2>Resultados de busqueda</h2>
+                <h2>Juegos</h2>
                 <div class="grilla">
                     <?php
                     foreach($juegos as $juego){
@@ -231,6 +236,26 @@
                                         <span><?= $cat ?></span>       
                                     <?php } ?> 
                                 </div>
+                            </div>
+                        </article>
+                    <?php
+                    };
+                    ?>
+                </div>
+                <h2>Usuarios</h2>
+                <div class="grilla">
+                    <?php
+                    foreach($usuarios as $usuario){
+                    ?>
+                        <article>
+                            <!-- str_replace remplaza los simbolos de un string que asignes por otro simbolo que le asignes -->
+                            <?php if($usuario["img_url"] === '') :?>
+                                <a href="user/perfil.php?perfil=<?= str_replace(' ', '-', $usuario["username"]) ?>"><i class="usuario"></i></a>
+                            <?php else: ?>
+                                <a href="user/perfil.php?perfil=<?= str_replace(' ', '-', $usuario["username"]) ?>"><img src="<?= $usuario["img_url"]?>"></a>
+                            <?php endif ?>
+                            <div class="info">
+                                <h3><?= $usuario["username"] ?></h3>
                             </div>
                         </article>
                     <?php

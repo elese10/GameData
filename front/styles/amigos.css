@@ -1,0 +1,366 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 32px clamp(16px, 6.25vw, 120px);
+    background: #0B0812;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.amigos-contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 1680px;
+    margin: 0 auto;
+}
+
+.amigos-barra {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+}
+
+.amigos-boton,
+.amigos-boton-aceptar,
+.amigos-boton-rechazar {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #242033;
+    color: #FFF;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.amigos-boton {
+    height: 48px;
+    padding: 0 18px;
+    border-radius: 16px;
+    background: #17151F;
+    font-size: 18px;
+}
+
+.amigos-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.amigos-titulo-pagina {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.amigos-titulo-pagina h1 {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.amigos-titulo-pagina p {
+    color: #A9A3B8;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.amigos-columnas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 24px;
+}
+
+.amigos-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 724px;
+    min-width: 0;
+    padding: 20px;
+    overflow: hidden;
+    border: 2px solid #242033;
+    border-radius: 24px;
+    background: rgba(23, 21, 31, 0.8);
+}
+
+.amigos-panel-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    min-height: 36px;
+}
+
+.amigos-panel-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.amigos-panel-titulo h2 {
+    font-size: 28px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.amigos-contador {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    flex-shrink: 0;
+    border: 2px solid #242033;
+    border-radius: 999px;
+    background: #17151F;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.amigos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.amigos-fila {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 84px;
+    padding: 12px 16px;
+    border: 2px solid #242033;
+    border-radius: 16px;
+    background: rgba(11, 8, 18, 0.6);
+}
+
+.amigos-perfil-resumen {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    flex: 1;
+}
+
+.amigos-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border: 2px solid #8B5CF6;
+    border-radius: 50%;
+    background: #17151F;
+    color: #FFF;
+}
+
+.amigos-avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.amigos-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.amigos-datos h3 {
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.amigos-datos span {
+    color: #A9A3B8;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 14px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.amigos-acciones {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.amigos-boton-aceptar,
+.amigos-boton-rechazar {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 14px;
+    font-size: 16px;
+    cursor: default;
+}
+
+.amigos-boton-aceptar {
+    border-color: transparent;
+    background: linear-gradient(180deg, #8B5CF6, #513690);
+}
+
+.amigos-boton-rechazar {
+    background: #17151F;
+}
+
+.amigos-estado-vacio {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    min-height: 0;
+    padding: 24px;
+    text-align: center;
+}
+
+.amigos-icono-vacio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 0;
+    border: 2px solid #242033;
+    border-radius: 50%;
+    background: #0B0812;
+}
+
+.amigos-estado-vacio h3 {
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.amigos-estado-vacio p {
+    max-width: 380px;
+    color: #A9A3B8;
+    font-size: 16px;
+    line-height: 1.35;
+}
+
+.icono-volver,
+.icono-usuario,
+.icono-mas {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: var(--icono) center / contain no-repeat;
+    mask: var(--icono) center / contain no-repeat;
+}
+
+.icono-volver {
+    width: 20px;
+    height: 20px;
+    --icono: url(../logos/volver.svg);
+}
+
+.icono-usuario {
+    --icono: url(../logos/usuario.svg);
+}
+
+.icono-mas {
+    --icono: url(../logos/mas.svg);
+}
+
+.icono-morado {
+    color: #8B5CF6;
+}
+
+@media (max-width: 1100px) {
+    .amigos-columnas {
+        grid-template-columns: 1fr;
+    }
+
+    .amigos-panel {
+        height: auto;
+        min-height: 520px;
+    }
+
+    .amigos-lista {
+        max-height: 628px;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 20px 16px;
+    }
+
+    .amigos-titulo-pagina h1 {
+        font-size: 38px;
+    }
+
+    .amigos-titulo-pagina p {
+        font-size: 16px;
+    }
+
+    .amigos-panel {
+        min-height: 460px;
+        padding: 16px;
+    }
+
+    .amigos-panel-titulo h2 {
+        font-size: 22px;
+    }
+
+    .amigos-contador {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    .amigos-fila-solicitud {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .amigos-acciones {
+        width: 100%;
+        padding-left: 70px;
+    }
+
+    .amigos-acciones button {
+        flex: 1;
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .amigos-estado-vacio {
+        padding: 16px 8px;
+    }
+}

@@ -79,6 +79,13 @@
                         <button class="boton" id="btn-modificar" type="submit">Modificar perfil</button>
                     </form>
                     <a class="boton boton-primario" id="btn-logout" href="../../back/procesar_modificacion_perfil.php?accion=cerrarsesion">Cerrar sesión</a>
+                <?php else: ?>
+                    <form action="../../back/procesar_solicitudAmistad.php?accion=enviarSolicitud" method="POST">
+                        <input type="hidden" value="<?= $id_usuario ?>" name="id_destinatario">
+                        <input type="hidden" value="<?= $_SESSION["id_usuario"]?>" name="id_solicitante">
+                        <input type="hidden" value="<?= $nombre_usuario ?>" name="usuario">
+                        <button class="boton" id="btn-modificar" type="submit">Enviar solicitud</button>
+                    </form>
                 <?php endif ?>
             </div>
         </header>
