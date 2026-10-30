@@ -11,6 +11,7 @@
     $fecha_creacion = $_SESSION["fecha_creacion"];
     $descripcion = $_SESSION["descripcion"];
     $img_url = $_SESSION["img_url"];
+    
     if($descripcion == ''){
         $descripcion = 0;
     }
@@ -67,7 +68,7 @@
                     <input type="hidden" value="<?= $img_url ?>" name="img_url">
                     <button class="boton" id="btn-modificar" type="submit">Modificar perfil</button>
                 </form>
-                <a class="boton boton-primario" id="btn-logout" href="#">Cerrar sesión</a>
+                <a class="boton boton-primario" id="btn-logout" href="../../back/procesar_modificacion_perfil.php?accion=cerrarsesion">Cerrar sesión</a>
             </div>
         </header>
 

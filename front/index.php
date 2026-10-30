@@ -19,6 +19,15 @@
     $juegos = $resultado->fetch_all(MYSQLI_ASSOC);
     $destacados = array_rand($juegos, 3);
 
+    $sql_juegosDestacados = "SELECT j.nombre, j.img_url, AVG(r.me_gusta) AS promedio
+    FROM Review AS r JOIN Juego AS j ON r.id_juego = j.id_juego
+    GROUP BY j.id_juego, j.nombre, j.img_url
+    ORDER BY promedio DESC LIMIT 6";
+    $resultado_destacados = $conexion->query($sql_juegosDestacados);
+    $juegos_destacados = $resultado_destacados->fetch_all(MYSQLI_ASSOC);
+
+
+
     $busqueda = $_POST["q"];
 
     if ($busqueda !== '') {
@@ -74,7 +83,7 @@
                 <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="user/perfil.php" class="perfil">
+        <a href="user/perfil.php?perfil=<?=$nombre_usuario?>" class="perfil">
             <div class="avatar">
                 <?php if($img_url !== 0): ?>
                     <img src="<?= $img_url ?>" alt="">
@@ -83,7 +92,7 @@
                 <?php endif ?>
             </div>
             <div class="datos">
-                <strong><?= $nombre_usuario ?></strong>
+                <strong><?=  $nombre_usuario?></strong>
                 <span>Perfil principal</span>
             </div>
         </a>
@@ -169,36 +178,13 @@
                         <h2><i class="tendencia"></i>Nuestros Favoritos</h2>
                         <span>6 juegos</span>
                     </div>
-                    <a href="juego.php?id=2">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/374320/header.jpg" alt="Dark Souls 3">
-                        <div><strong>Dark Souls 3</strong><span>Acción, RPG</span></div>
-                        <span class="puesto">1</span>
-                    </a>
-                    <a href="juego.php?id=3">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg" alt="Elden Ring">
-                        <div><strong>Elden Ring</strong><span>Acción, RPG</span></div>
-                        <span class="puesto">2</span>
-                    </a>
-                    <a href="juego.php?id=4">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077">
-                        <div><strong>Cyberpunk 2077</strong><span>RPG</span></div>
-                        <span class="puesto">3</span>
-                    </a>
-                    <a href="juego.php?id=5">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg" alt="Baldur's Gate 3">
-                        <div><strong>Baldur's Gate 3</strong><span>RPG</span></div>
-                        <span class="puesto">4</span>
-                    </a>
-                    <a href="juego.php?id=6">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg" alt="The Witcher 3">
-                        <div><strong>The Witcher 3</strong><span>Aventura, RPG</span></div>
-                        <span class="puesto">5</span>
-                    </a>
-                    <a href="juego.php?id=7">
-                        <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg" alt="Red Dead Redemption 2">
-                        <div><strong>Red Dead Redemption 2</strong><span>Aventura</span></div>
-                        <span class="puesto">6</span>
-                    </a>
+                    <?php foreach($juegos_destacados as $indice => $juego_destacado){?>
+                        <a href="juego.php?juego=<?= str_replace(' ', '-', $juego_destacado["nombre"]) ?>">
+                            <img src="<?= $juego_destacado["img_url"] ?>" alt="">
+                            <div><strong><?= $juego_destacado["nombre"] ?></strong></div>
+                            <span class="puesto"><?= $indice + 1 ?></span>
+                        </a>
+                    <?php } ?>
                 </section>
             </section>
             

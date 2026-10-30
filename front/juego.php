@@ -26,6 +26,10 @@
     }
     $juego = $datos->fetch_assoc();
 
+    $resultado_valoracion = $conexion->prepare("SELECT AVG(r.me_gusta) FROM Review AS r JOIN Juego AS j ON r.id_juego = j.id_juego WHERE j.nombre = ?");
+    $resultado_valoracion->bind_param("s", $nombre_juego);
+    $resultado_valoracion->execute();
+    $valoracion = $resultado_valoracion->get_result()->fetch_assoc()["AVG(r.me_gusta)"];
 
     $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username, p.img_url 
     FROM Review AS r 
@@ -41,8 +45,6 @@
     $resultado_reseñas->bind_param("s", $nombre_juego);
     $resultado_reseñas->execute();
     $comentarios = $resultado_reseñas->get_result();
-
-
 
     //Consultas de listas
     $sql_favorito = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 1";
@@ -164,7 +166,19 @@
                 </section>
                 <section>
                     <h2>Valoración</h2>
-                    <p class="nota">Valoración: Muy Positiva</p>
+                    <?php if ($valoracion === null): ?>
+                        <p class="nota">Sin valoraciones</p>
+                    <?php elseif ($valoracion >= 0.80): ?>
+                        <p class="nota">Valoración: Muy positiva</p>
+                    <?php elseif ($valoracion >= 0.60): ?>
+                        <p class="nota">Valoración: Positiva</p>
+                    <?php elseif ($valoracion >= 0.45): ?>
+                        <p class="nota">Valoración: Regular</p>
+                    <?php elseif ($valoracion >= 0.25): ?>
+                        <p class="nota">Valoración: Negativa</p>
+                    <?php else: ?>
+                        <p class="nota">Valoración: Muy negativa</p>
+                    <?php endif; ?>
                 </section>
                 <section>
                     <h2>Categorías</h2>
@@ -179,8 +193,6 @@
             <div class="derecha">
                 <section>
                 
-
-
                     <h2>Listas</h2>
                     <nav class="listas">
                         <form action="../back/procesar_listas.php" method="POST">
@@ -245,7 +257,7 @@
                                     <?php endif ?>
                                 </div>
                                 <div class="datos">
-                                    <strong><?= $comentario["username"] ?></strong>
+                                    <a href="user/perfil.php?perfil=<?=$comentario["username"]?>"class="perfil"><strong><?= $comentario["username"] ?></strong></a>
                                     <span><?= $comentario["fecha"] ?></span>
                                 </div>
                                 <?php if($comentario["me_gusta"] == 1): ?>
