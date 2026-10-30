@@ -41,7 +41,7 @@
             if($img_url != $_SESSION["img_url"]) {
                 $_SESSION["img_url"] = $img_url;
             }
-            header("Location: ../front/user/perfil.php");
+            header("Location: ../front/user/perfil.php?perfil=$nombre_usuario");
             exit;
         } else{
             echo "fallo";

@@ -26,8 +26,6 @@
     $resultado_destacados = $conexion->query($sql_juegosDestacados);
     $juegos_destacados = $resultado_destacados->fetch_all(MYSQLI_ASSOC);
 
-
-
     $busqueda = $_POST["q"];
 
     if ($busqueda !== '') {
@@ -255,7 +253,7 @@
                                 <a href="user/perfil.php?perfil=<?= str_replace(' ', '-', $usuario["username"]) ?>"><img src="<?= $usuario["img_url"]?>"></a>
                             <?php endif ?>
                             <div class="info">
-                                <h3><?= $usuario["username"] ?></h3>
+                                <h3><?= htmlspecialchars($usuario["username"]) ?></h3>
                             </div>
                         </article>
                     <?php
