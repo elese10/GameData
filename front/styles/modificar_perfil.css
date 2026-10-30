@@ -1,0 +1,350 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 32px;
+    background-color: #0B0812;
+    color: #FFF;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Iconos */
+i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background: currentColor;
+    -webkit-mask: var(--icono);
+    mask: var(--icono);
+}
+
+.usuario { --icono: url(../logos/usuario.svg); }
+
+/* Formulario */
+.formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 960px;
+    padding: 32px;
+    border-radius: 24px;
+    border: 2px solid #242033;
+    background: #17151F;
+    backdrop-filter: blur(9px);
+}
+
+/* Marca */
+.marca{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.marca-icono{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: #311376;
+    color: #F0ABFC;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.marca-titulos{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.marca-titulos span:last-child{ color: #F0ABFC; }
+
+/* Titulo */
+.titulo{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.titulo h1{
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.titulo p{
+    color: #A9A3B8;
+    font-size: 18px;
+    line-height: 150%;
+}
+
+/* Etiquetas y campos */
+.etiqueta{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.avatar-bloque,
+.campo{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campos{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input{
+    width: 100%;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: rgba(23, 21, 31, 0.80);
+    backdrop-filter: blur(9px);
+    color: #FFF;
+    font-family: inherit;
+    font-size: 18px;
+}
+
+.input::placeholder{
+    color: #A9A3B8;
+    opacity: 1;
+}
+
+.input:focus{
+    outline: none;
+    border-color: #8B5CF6;
+}
+
+.descripcion{
+    height: 80px;
+    padding: 12px 16px;
+    line-height: 1.4;
+    resize: none;
+}
+
+/* Avatar */
+.avatar-preview{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 132px;
+    border-radius: 16px;
+    border: 2px solid #242033;
+    background: rgba(23, 21, 31, 0.80);
+    backdrop-filter: blur(9px);
+}
+
+.avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 2px solid #8B5CF6;
+    background: #17151F;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #FFF;
+}
+
+.avatar i{
+    width: 44px;
+    height: 44px;
+}
+
+.avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar.con-imagen i{
+    display: none;
+}
+
+.avatar.con-imagen img{
+    display: none;
+}
+
+.acciones{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.boton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 56px;
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.boton-guardar{
+    border: none;
+    background: linear-gradient(180deg, #8B5CF6, #513690);
+    color: #FFF;
+}
+
+.boton-cancelar{
+    border: 2px solid #242033;
+    background: #17151F;
+    color: #FFF;
+}
+
+.boton-cancelar:hover{ border-color: #8B5CF6; }
+
+.boton:focus-visible{
+    outline: 2px solid #8B5CF6;
+    outline-offset: 2px;
+}
+
+/* Responsive: el form sigue ocupando todo el ancho disponible */
+
+/* Pantallas bajas (laptops) */
+@media (max-height: 980px){
+    body{ padding: 16px; }
+}
+
+@media (max-height: 900px){
+    .formulario{
+        gap: 14px;
+        padding: 24px;
+    }
+    .marca-icono{
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    .marca-titulos{
+        gap: 0;
+        font-size: 18px;
+    }
+    .titulo{ gap: 4px; }
+    .titulo h1{ font-size: 34px; }
+    .titulo p{ font-size: 16px; }
+    .avatar-bloque,
+    .campo{ gap: 6px; }
+    .campos{ gap: 12px; }
+    .avatar-preview{ height: 100px; }
+    .avatar{
+        width: 84px;
+        height: 84px;
+    }   
+
+    .descripcion{
+        height: 64px;
+        padding: 8px 16px;
+    }
+
+    .avatar i{
+        width: 32px;
+        height: 32px;
+    }
+    .input{
+        height: 44px;
+        font-size: 16px;
+    }
+    .boton{
+        height: 48px;
+        font-size: 18px;
+    }
+}
+
+@media (max-height: 760px){
+    body{ padding: 12px; }
+    .formulario{
+        gap: 10px;
+        padding: 20px;
+    }
+    .marca-icono{
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    .marca-titulos{ font-size: 16px; }
+    .titulo{ gap: 2px; }
+    .titulo h1{ font-size: 28px; }
+    .titulo p{ font-size: 14px; }
+    .avatar-bloque,
+    .campo{ gap: 4px; }
+    .campos{ gap: 10px; }
+    .etiqueta{ font-size: 14px; }
+    .avatar-preview{ height: 84px; }
+    .avatar{
+        width: 68px;
+        height: 68px;
+    }
+
+    .descripcion{
+        height: 56px;
+        padding: 6px 16px;
+    }
+    .avatar i{
+        width: 28px;
+        height: 28px;
+    }
+    .input{
+        height: 40px;
+        font-size: 15px;
+    }
+    .boton{
+        height: 44px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 640px){
+    body{
+        align-items: flex-start;
+        padding: 16px;
+    }
+    .formulario{
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .titulo h1{ font-size: 32px; }
+    .titulo p{ font-size: 16px; }
+    .input{
+        height: 52px;
+        font-size: 16px;
+    }
+    .boton{
+        height: 52px;
+        font-size: 18px;
+    }
+
+    .descripcion{
+        height: 80px;
+    }
+}

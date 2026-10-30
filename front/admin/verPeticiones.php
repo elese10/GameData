@@ -8,6 +8,7 @@
     $traerPeticion -> close();
     $rol = $_SESSION["tipo_user"];
     $nombre_usuario = $_SESSION["username"];
+    $img_url = $_SESSION["img_url"] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -45,12 +46,18 @@
         <?php if($rol == 1) :?>
             <nav class="nav-admin"> 
                 <h2>Herramientas de Admin</h2>           
-                <a href="admin/verPeticiones.php" class="activo"><i class="libro"></i>Ver solicitudes</a>
-                <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
+                <a href="verPeticiones.php" class="activo"><i class="libro"></i>Ver solicitudes</a>
+                <a href="anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="perfil.php" class="perfil">
-            <div class="avatar"><i class="usuario"></i></div>
+        <a href="../user/perfil.php?perfil=<?=$nombre_usuario?>" class="perfil">
+            <div class="avatar">
+                <?php if($img_url !== 0): ?>
+                        <img src="<?= $img_url ?>" alt="">
+                    <?php else: ?>
+                        <i class="usuario"></i>
+                    <?php endif ?>
+                </div>
             <div class="datos">
                 <strong><?= $nombre_usuario ?></strong>
                 <span>Perfil principal</span>
@@ -93,9 +100,9 @@
                 <input type="search" placeholder="Buscar juegos, usuarios">
             </form>
             <nav>
-                <a href="lista.php?tipo=favoritos"><i class="estrella"></i>Favoritos</a>
-                <a href="lista.php?tipo=deseados"><i class="mas"></i>Deseados</a>
-                <a href="lista.php?tipo=posesion"><i class="libro"></i>En posesión</a>
+                <a href="../lista.php?lista=favoritos"><i class="estrella"></i>Favoritos</a>
+                <a href="../lista.php?lista=deseados"><i class="mas"></i>Deseados</a>
+                <a href="../lista.php?lista=posesion"><i class="libro"></i>En posesión</a>
             </nav>
         </div>
         

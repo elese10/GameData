@@ -219,6 +219,13 @@ h1 {
     height: 16px;
 }
 
+.avatar img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .datos {
     display: flex;
     flex-direction: column;
@@ -394,4 +401,163 @@ h1 {
 .calificacion input:checked + label{
     opacity: 1;
     background: linear-gradient(180deg, #7C5CC4, #5B3FA0);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1000px) {
+    main {
+        gap: 32px;
+        padding: 56px 40px;
+    }
+
+    h1 {
+        margin-bottom: 56px;
+        font-size: clamp(56px, 9vw, 80px);
+    }
+
+    .columnas {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+        gap: 24px;
+    }
+
+    .columnas section {
+        padding: 22px;
+    }
+
+    .columnas h2 {
+        font-size: 32px;
+    }
+
+    .derecha h2 {
+        font-size: 27px;
+    }
+
+    .izquierda .nota {
+        font-size: 38px;
+    }
+
+    .boton_lista {
+        padding: 16px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 720px) {
+    main {
+        gap: 24px;
+        padding: 40px 20px;
+    }
+
+    h1 {
+        margin: 90px 0 28px;
+        font-size: clamp(42px, 11vw, 64px);
+        overflow-wrap: anywhere;
+    }
+
+    .columnas {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .izquierda,
+    .derecha {
+        gap: 18px;
+    }
+
+    .izquierda p {
+        font-size: 17px;
+    }
+
+    .izquierda .nota {
+        font-size: 34px;
+    }
+
+    .listas {
+        flex-wrap: wrap;
+    }
+
+    .boton_lista {
+        min-width: 42%;
+    }
+
+    .botones-admin {
+        position: static;
+        flex-wrap: wrap;
+        margin: 16px 20px 0;
+    }
+
+    .botones-admin .boton {
+        flex: 1 1 140px;
+        padding: 14px 18px;
+        font-size: 17px;
+    }
+
+    .fondo {
+        height: 360px;
+        overflow: hidden;
+    }
+
+    .fondo img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .modal_overlay {
+        padding: 14px;
+    }
+
+    .modal_contenedor {
+        width: min(100%, 720px);
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
+        padding: 22px;
+    }
+}
+
+@media (max-width: 420px) {
+    main {
+        padding: 28px 12px;
+    }
+
+    h1 {
+        margin-top: 80px;
+    }
+
+    .columnas section,
+    .derecha article {
+        padding: 16px;
+    }
+
+    .etiquetas {
+        flex-wrap: wrap;
+    }
+
+    .listas {
+        flex-direction: column;
+    }
+
+    .boton_lista {
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+        font-size: 18px;
+    }
+
+    .autor {
+        flex-wrap: wrap;
+    }
+
+    .positivo,
+    .negativo {
+        padding: 5px 9px;
+        font-size: 10px;
+    }
+
+    .modal_contenedor {
+        padding: 16px;
+    }
+
+    .modal_botones {
+        flex-wrap: wrap;
+    }
 }

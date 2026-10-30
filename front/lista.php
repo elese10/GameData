@@ -9,6 +9,7 @@
     $nombre_usuario = $_SESSION["username"];
     $rol = $_SESSION["tipo_user"];
     $lista = $_GET["lista"];
+    $img_url = $_SESSION["img_url"] ?? 0;
 
     if($lista === "favoritos"){
         $lista = 1;
@@ -77,8 +78,14 @@
                 <a href="admin/anadirJuego.php"><i class="mas"></i>Agregar Juego</a>
             </nav>
         <?php endif?>
-        <a href="perfil.php" class="perfil">
-            <div class="avatar"><i class="usuario"></i></div>
+        <a href="user/perfil.php?perfil=<?=$nombre_usuario?>" class="perfil">
+            <div class="avatar">
+                <?php if($img_url !== 0): ?>
+                    <img src="<?= $img_url ?>" alt="">
+                <?php else: ?>
+                    <i class="usuario"></i>
+                <?php endif ?>
+            </div>
             <div class="datos">
                 <strong><?= $nombre_usuario ?></strong>
                 <span>Perfil principal</span>

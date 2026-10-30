@@ -10,7 +10,7 @@
         $usuario,
         $password,
         $base_datos,
-        $puerto
+        $puerto 
     );
 
     if ($conexion->connect_error) {

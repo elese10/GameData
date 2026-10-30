@@ -128,3 +128,48 @@ button{
     font-weight: 700;
     text-decoration: none;
 }
+
+/* Ajustes responsivos */
+@media (max-width: 600px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .tarjeta {
+        width: min(100%, 560px);
+        gap: 22px;
+        padding: 28px 22px;
+        border-radius: 20px;
+    }
+
+    .sesion {
+        font-size: clamp(30px, 8vw, 40px);
+    }
+
+    .descripcion {
+        font-size: 16px;
+    }
+
+    input {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        padding: 14px 10px;
+    }
+
+    .tarjeta {
+        gap: 18px;
+        padding: 22px 16px;
+    }
+
+    .nombre {
+        font-size: 21px;
+    }
+
+    .registro {
+        font-size: 14px;
+    }
+}

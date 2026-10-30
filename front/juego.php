@@ -1,7 +1,7 @@
 <?php
     session_start();
     require "../back/conexiones/conexion.php";
-     if (!isset($_SESSION["id_usuario"])) {
+    if (!isset($_SESSION["id_usuario"])) {
         header("Location: http://localhost/GameData/front/index.php");
         exit;
     }
@@ -26,21 +26,25 @@
     }
     $juego = $datos->fetch_assoc();
 
+    $resultado_valoracion = $conexion->prepare("SELECT AVG(r.me_gusta) FROM Review AS r JOIN Juego AS j ON r.id_juego = j.id_juego WHERE j.nombre = ?");
+    $resultado_valoracion->bind_param("s", $nombre_juego);
+    $resultado_valoracion->execute();
+    $valoracion = $resultado_valoracion->get_result()->fetch_assoc()["AVG(r.me_gusta)"];
 
-    $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username 
+    $sql_comentarios = "SELECT r.me_gusta, r.review, r.fecha, u.username, p.img_url 
     FROM Review AS r 
     JOIN Usuario AS u 
     ON r.id_usuario = u.id_usuario 
     JOIN Juego AS j 
     ON r.id_juego = j.id_juego 
+    JOIN Perfil AS p
+    ON r.id_usuario = p.id_usuario
     WHERE j.nombre = ?";
 
     $resultado_reseñas = $conexion->prepare($sql_comentarios);
     $resultado_reseñas->bind_param("s", $nombre_juego);
     $resultado_reseñas->execute();
     $comentarios = $resultado_reseñas->get_result();
-
-
 
     //Consultas de listas
     $sql_favorito = "SELECT * FROM Usuario_juego WHERE id_usuario = ? AND id_juego = ? AND id_lista = 1";
@@ -100,7 +104,7 @@
             <button class="boton_lista"><a href="index.php"><i class="volver"></i>Volver</a></button>
         </div>
         <div style="position: relative;">
-             <h1><?= $juego["nombre"] ?></h1>
+            <h1><?= $juego["nombre"] ?></h1>
             <?php if($rol == 1):?>
                 <div class="botones-admin">
                     <button class="boton modificar"><a href="admin/modificarJuego.php?id_juego=<?= $juego["id_juego"] ?>">Editar</a></button>
@@ -162,7 +166,19 @@
                 </section>
                 <section>
                     <h2>Valoración</h2>
-                    <p class="nota">Valoración: Muy Positiva</p>
+                    <?php if ($valoracion === null): ?>
+                        <p class="nota">Sin valoraciones</p>
+                    <?php elseif ($valoracion >= 0.80): ?>
+                        <p class="nota">Valoración: Muy positiva</p>
+                    <?php elseif ($valoracion >= 0.60): ?>
+                        <p class="nota">Valoración: Positiva</p>
+                    <?php elseif ($valoracion >= 0.45): ?>
+                        <p class="nota">Valoración: Regular</p>
+                    <?php elseif ($valoracion >= 0.25): ?>
+                        <p class="nota">Valoración: Negativa</p>
+                    <?php else: ?>
+                        <p class="nota">Valoración: Muy negativa</p>
+                    <?php endif; ?>
                 </section>
                 <section>
                     <h2>Categorías</h2>
@@ -177,8 +193,6 @@
             <div class="derecha">
                 <section>
                 
-
-
                     <h2>Listas</h2>
                     <nav class="listas">
                         <form action="../back/procesar_listas.php" method="POST">
@@ -230,11 +244,20 @@
                     <h2>Reseñas y comentarios</h2>
                     <a class="comentar" onclick="abrirModalResena()"><i class="mas"></i>Comentar</a>
                     <?php while($comentario = $comentarios->fetch_assoc()) {?>
+                        <?php 
+                            $img_url = $comentario["img_url"] ?? 0;
+                        ?>
                         <article>
                             <div class="autor">
-                                <div class="avatar"><i class="usuario"></i></div>
+                                <div class="avatar">
+                                    <?php if($img_url === 0): ?>
+                                        <i class="usuario"></i>
+                                    <?php else: ?>
+                                        <img src="<?= $img_url ?>" alt="">
+                                    <?php endif ?>
+                                </div>
                                 <div class="datos">
-                                    <strong><?= $comentario["username"] ?></strong>
+                                    <a href="user/perfil.php?perfil=<?=$comentario["username"]?>"class="perfil"><strong><?= $comentario["username"] ?></strong></a>
                                     <span><?= $comentario["fecha"] ?></span>
                                 </div>
                                 <?php if($comentario["me_gusta"] == 1): ?>
@@ -260,7 +283,7 @@
             document.getElementById('modalResena').style.display = 'none';
         }
 
-         function abrirModalResena() {
+        function abrirModalResena() {
             document.getElementById('modalResena').style.display = 'flex';
         }
     </script>
